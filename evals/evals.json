@@ -1,0 +1,116 @@
+{
+  "skill_name": "writing-docs-in-polish",
+  "evals": [
+    {
+      "id": 6,
+      "prompt": "Przetłumacz na polski ten fragment instrukcji: 'Before you begin, make sure you have kubectl installed. Run `kubectl get pods` and wait until your Pod shows Running. If you see ContainerCreating, try again in a few seconds. For more details, refer to the Pods concept page.'",
+      "expected_output": "Natural Polish: 'Zanim zaczniesz', no possessive 'twój', status values kept in English and glossed („Running” (działa)), 'Więcej informacji znajdziesz…' instead of 'odwołaj się do', consistent pod/Pod usage.",
+      "files": [],
+      "assertions": [
+        "Opens with a natural Polish construction such as „Zanim zaczniesz”, not a calque like „Przed tym jak zaczniesz”",
+        "No possessive „twój/twoim/twojego” translating „your”",
+        "Status values Running and ContainerCreating are kept in English and glossed in Polish (e.g. „Running” (działa))",
+        "Uses „Więcej informacji znajdziesz…” (or equivalent natural phrasing), not „odwołaj się do”/„odnieś się do”",
+        "pod/Pod casing is consistent and `kubectl get pods` is left untranslated"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Napisz runbook dla naszego zespołu: jak zrollbackować nieudany deployment serwisu `payments-api` na klastrze produkcyjnym (kubectl rollout undo), sprawdzić status podów i dać znać na kanale #incydenty.",
+      "expected_output": "Internal register: natural jargon (zrollbackuj, deployment, pody, poda) spelled per prefix/apostrophe rules, not formal 'wycofaj wdrożenie'; one register throughout; commands untranslated; runbook structure with verification step.",
+      "files": [],
+      "assertions": [
+        "Uses natural internal jargon (e.g. zrollbackuj/rollback, deployment, pody) rather than formal „wycofaj wdrożenie”",
+        "Jargon is spelled correctly per Polish rules (prefix joined without hyphen, correct inflection like „poda”, „podów”)",
+        "One register is used throughout (no switching between jargon and formal public phrasing)",
+        "Commands (`kubectl rollout undo`, `kubectl get pods`, `kubectl rollout status`) are left untranslated in code",
+        "Includes a verification step checking pod/rollout status after the rollback",
+        "Includes a step to notify the #incydenty channel"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Przygotuj publiczną dokumentację dla klientów: jak wdrożyć naszą aplikację na własnym klastrze Kubernetes za pomocą Helm charta.",
+      "expected_output": "Public register: Polish verbs (wdróż, uruchom ponownie), no jargon verbs like 'zdeployuj'; established nouns (pod, chart) inflected; task template.",
+      "files": [],
+      "assertions": [
+        "Uses Polish verbs (wdróż, zainstaluj, uruchom ponownie) and no jargon verbs such as „zdeployuj”, „zrestartuj”, „zupgrade'uj”",
+        "Established nouns (pod, chart, release) are inflected correctly (e.g. „chartu”, „podów”)",
+        "Follows a task/how-to structure: prerequisites (e.g. Zanim zaczniesz / Wymagania), numbered steps, verification",
+        "Helm/kubectl commands and flags are left untranslated in code blocks",
+        "Headings are in Polish sentence case",
+        "Addresses the customer consistently in one form (ty or Państwo), without mixing"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Napisz instrukcję dla naszych klientów: jak włączyć uwierzytelnianie dwuskładnikowe (2FA) w portalu klienta za pomocą aplikacji Google Authenticator lub Microsoft Authenticator. Portal jest po polsku.",
+      "expected_output": "Public how-to for non-technical users: numbered steps, UI labels in bold, invented portal labels marked as placeholders or assumptions, recovery codes and lost-phone guidance, consistent 'ty' without gendered forms.",
+      "files": [],
+      "assertions": [
+        "Steps are numbered and each step contains one action",
+        "UI element names are in bold (e.g. **Ustawienia**, **Bezpieczeństwo**)",
+        "Portal labels or paths not given in the prompt are marked as placeholders or listed as assumptions, not presented as fact",
+        "Explains backup/recovery codes and what to do if the phone is lost",
+        "Addresses the reader consistently as 'ty' with no gender-forcing forms (e.g. „włączyłeś”, „chciałbyś”)",
+        "lint_pl.py reports 0 errors (no em dash, no hyphen used as a dash, Polish „…” quotes)"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Przygotuj samouczek dla początkujących użytkowników Linuksa: pierwsza kopia zapasowa katalogu domowego na dysk zewnętrzny za pomocą restic, łącznie z odtworzeniem jednego pliku.",
+      "expected_output": "Tutorial with Cele / Zanim zaczniesz / numbered steps / Sprzątanie or Co dalej, expected output after commands, restore and verify a single file, password-loss warning before init, consistent terminology.",
+      "files": [],
+      "assertions": [
+        "Has tutorial structure: goals (Cele), prerequisites (Zanim zaczniesz), numbered steps, and Sprzątanie or Co dalej",
+        "Shows expected output or what the reader should see after state-changing commands",
+        "Includes restoring a single file and verifying that it was restored",
+        "Warns before repository initialization that losing the repository password makes the backup unrecoverable",
+        "restic commands and flags are untranslated in code blocks and placeholders are explained",
+        "Terminology is consistent (e.g. repozytorium, migawka, kopia zapasowa are not alternated with snapshot/backup)"
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Napisz procedurę dla administratorów: wymiana uszkodzonego dysku w programowym RAID 1 (mdadm) na serwerze z Ubuntu 24.04, bez utraty danych.",
+      "expected_output": "Risky admin how-to: identify failed disk first, warnings before destructive steps, copy partition table, add to array, monitor resync, GRUB on new disk, verification, public register.",
+      "files": [],
+      "assertions": [
+        "Identifies the failed disk (mdadm --detail or /proc/mdstat, plus serial number) before any destructive action",
+        "Warnings (Ostrzeżenie/Uwaga) appear before the destructive steps they concern, not after",
+        "Includes copying the partition layout to the new disk, adding it to the array and monitoring the resync",
+        "Mentions installing the bootloader (GRUB) on the new disk when the array holds the system",
+        "Has a verification section confirming the array is healthy (e.g. [UU], state clean)",
+        "Uses public register: Polish verbs, no jargon verbs such as „zrebuildować”, „zsyncować”; commands untranslated"
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Przetłumacz na polski instrukcję dla użytkowników. Aplikacja ma interfejs tylko po angielsku: '1. Open Settings and go to the Privacy tab. 2. Under \"Data sharing\", turn off \"Send usage statistics\". 3. Click Save \u2014 the change takes effect after you restart the app. Note: this doesn't delete data that was already sent.'",
+      "expected_output": "Translation keeping English UI labels in bold with a one-time Polish gloss, GUI verbs, em dash converted to en dash, note preserved as an admonition, numbered steps.",
+      "files": [],
+      "assertions": [
+        "English UI labels are kept verbatim in bold and glossed in Polish once (e.g. **Settings** (Ustawienia))",
+        "The em dash from the source is not in the output; an en dash or restructured sentence is used instead",
+        "Uses Polish GUI verbs: kliknij, wyłącz (przełącznik/opcję), przejdź do karty",
+        "The note about already-sent data is preserved as an admonition (Uwaga or Informacja)",
+        "The three numbered steps and the restart requirement are preserved",
+        "No calques or unnecessary possessives („twój”, „swoje”)"
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Napisz instrukcję onboardingową dla nowych devów w zespole: jak uzyskać dostęp do klastra staging – VPN (WireGuard), logowanie przez SSO do Teleporta, pobranie kubeconfiga i sprawdzenie dostępu. Pisz tak, jak piszemy w zespole.",
+      "expected_output": "Internal-register onboarding how-to: natural jargon, numbered steps with a check after each access step, unknown hostnames/groups as placeholders or assumptions, where to ask for help.",
+      "files": [],
+      "assertions": [
+        "Uses internal register with natural jargon (kubeconfig, namespace, klaster) spelled per Polish rules and no switching to stiff formal phrasing",
+        "Steps are numbered and each access step is followed by a check (e.g. tsh status, kubectl get pods)",
+        "Hostnames, group names and proxy addresses not given in the prompt are placeholders or listed as assumptions",
+        "Says whom to contact or where to ask when access is denied",
+        "Commands are untranslated in code blocks and placeholders are explained",
+        "lint_pl.py reports 0 errors (no em dash, no hyphen used as a dash, Polish „…” quotes)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+# skill-creator eval workspaces and packaged skills
+*-workspace/
+*.skill
+dist/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+__pycache__/

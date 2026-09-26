@@ -1,0 +1,14 @@
+{
+  "name": "veinar-skills",
+  "description": "Agent Skills by Veinar",
+  "owner": {
+    "name": "Veinar"
+  },
+  "plugins": [
+    {
+      "name": "writing-docs-in-polish",
+      "source": "./",
+      "description": "Write technical documentation in Polish (README, guides, API docs, ADRs, changelogs)."
+    }
+  ]
+}

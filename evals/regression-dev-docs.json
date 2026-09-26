@@ -1,0 +1,74 @@
+{
+  "skill_name": "writing-docs-in-polish",
+  "description": "Regression set: developer-oriented documents (README, changelog, ADR, CLI reference, specification). Run occasionally to catch regressions.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Napisz README po polsku dla mojej biblioteki Pythona `kolejka-zadan`, która obsługuje asynchroniczną kolejkę zadań z Redisem. Instalacja przez pip, wymaga Pythona 3.11+.",
+      "expected_output": "Polish README following the README template; sentence-case headings; code untranslated in backticks; „…” quotes; reader addressed as 'ty'; no calques (posiada, wspiera).",
+      "files": [],
+      "assertions": [
+        "Headings are in Polish sentence case (no Title Case such as „Szybki Start”)",
+        "Code, commands and identifiers (`pip install kolejka-zadan`, Python code, `kolejka-zadan`) are left untranslated and formatted as code",
+        "Prose uses Polish „…” quotation marks, never English \"…\" quotes (outside code)",
+        "Reader is addressed consistently as „ty” (e.g. zainstaluj, możesz), not „Państwo”/„wy” or impersonal mixing",
+        "No calques: none of „posiada”, „wspiera”, „dedykowany”, „w oparciu o”",
+        "States the requirements: installation via pip and Python 3.11 or newer"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Translate this changelog entry to Polish for our release notes: '## [2.0.0] - 2026-03-01\n### Added\n- New \"Export to CSV\" feature (1,500 rows max)\n### Removed\n- Deprecated `--legacy` flag'",
+      "expected_output": "Polish changelog with Polish section names (Dodano, Usunięto), en dash in the version heading, „…” quotes, 1500 without separator, `--legacy` kept verbatim.",
+      "files": [],
+      "assertions": [
+        "Section headings are translated to Polish past-tense forms „Dodano” and „Usunięto”",
+        "Version heading uses an en dash (–) between version and date, not a hyphen",
+        "Feature name is quoted with Polish „…” quotes",
+        "Number is written as 1500 (no comma and no thousands separator)",
+        "`--legacy` is kept verbatim in backticks"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Przygotuj ADR opisujący decyzję o migracji z REST na gRPC w komunikacji między mikroserwisami. Weź pod uwagę opóźnienia i kompatybilność wsteczną.",
+      "expected_output": "Polish ADR with Kontekst / Rozważane warianty / Decyzja / Konsekwencje (positive and negative); consistent terminology; natural Polish syntax.",
+      "files": [],
+      "assertions": [
+        "Contains the sections Kontekst, Rozważane warianty (or clearly equivalent options section), Decyzja and Konsekwencje",
+        "Konsekwencje lists both positive and negative consequences",
+        "Explicitly addresses latency (opóźnienia) and backward compatibility (kompatybilność wsteczna)",
+        "Headings are in Polish sentence case",
+        "Terminology is consistent (the same concept is not alternately called by different Polish/English names)",
+        "Syntax reads as natural Polish, with no calques („posiada”, „wspiera”, „w oparciu o”, „dedykowany”, „adresować”)"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Napisz stronę referencyjną (jak man page) dla naszego narzędzia CLI `backupctl restore`. Opcje: --snapshot ID (wymagana), --target DIR (domyślnie /var/lib/app), --dry-run, --force. Kody wyjścia: 0 sukces, 2 brak snapshotu, 3 katalog docelowy niepusty. Czyta zmienną BACKUPCTL_CONFIG.",
+      "expected_output": "Reference page with Składnia, Opis, Opcje (3rd-person verbs, defaults stated), Kod zakończenia, Zmienne środowiskowe, Przykłady, Zobacz też; placeholders in <angle_brackets>; options untranslated.",
+      "files": [],
+      "assertions": [
+        "Contains sections Składnia, Opis, Opcje, Kod zakończenia (or Kody zakończenia), Zmienne środowiskowe, Przykłady and Zobacz też",
+        "Option descriptions use third-person verbs (e.g. „Określa”, „Wymusza”), not imperatives",
+        "Default for --target (/var/lib/app) is stated, and --snapshot is marked as required",
+        "Placeholders are written in <angle_brackets> (e.g. <id>, <katalog>)",
+        "Option names (--snapshot, --target, --dry-run, --force) are left untranslated",
+        "All three exit codes (0, 2, 3) and the BACKUPCTL_CONFIG variable are documented"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "We need a short Polish spec for our webhook delivery contract: the server signs payloads with HMAC-SHA256 in the X-Signature header, retries up to 5 times with exponential backoff, and receivers must respond 2xx within 10 seconds. Write it RFC-style in Polish.",
+      "expected_output": "Polish specification with Streszczenie, Konwencje i terminologia containing the BCP 14 keyword declaration, uppercase inflected keywords (MUSI, POWINIEN, NIE MOŻE), Względy bezpieczeństwa section, 10 s with unit spacing, header names untranslated.",
+      "files": [],
+      "assertions": [
+        "Contains sections Streszczenie, Konwencje i terminologia, and Względy bezpieczeństwa",
+        "Konwencje i terminologia contains a BCP 14 (RFC 2119 / RFC 8174) keyword declaration",
+        "Requirement keywords are uppercase and grammatically inflected Polish (e.g. MUSI, POWINIEN, NIE MOŻE)",
+        "Time is written with unit spacing as „10 s” (not „10s”)",
+        "Header name X-Signature and algorithm HMAC-SHA256 are left untranslated; 5 retries with exponential backoff are specified"
+      ]
+    }
+  ]
+}
