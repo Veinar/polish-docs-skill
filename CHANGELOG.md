@@ -4,6 +4,28 @@ All notable changes to this project are documented here. Format follows [Keep a 
 
 ## [Unreleased]
 
+## [0.8.2] – 2026-09-26
+
+### Changed
+- `lint_pl.py --fix` also removes leftover template comments (keeping `DO UZUPEŁNIENIA` and comments inside code blocks), lowercases a mid-sentence „Twój” and restores hyphens in ISO dates; unfixable quote problems are reported once with the offending line, and the run ends with „fix by hand in one pass, do not run --fix again”. Aim: no more linter loops (one run took 66 tool calls).
+- SKILL.md: default register is publiczna, and „pisz jak piszemy w zespole” or „dla zespołu” selects inżynierska; never invent UI labels, menu names or paths; hyphens stay in ISO dates and compounds; the lint step never loops.
+- CLAUDE.md contains only repository workflow rules; subagents read it, so writing rules there leaked into eval baselines.
+
+### Added
+- Linter checks: `empty-quotes` (a lost reference: „przejdź do sekcji „””), `control-char` (an unescaped `\1` in a home-made fix script produced an invisible U+0001 inside quotes), `iso-date-dash`, `gendered-form` (uruchomiłeś / uruchomiłaś), `straight-quote-odd`.
+- `lint_metrics.py` compares an optional third arm (`old_skill`).
+
+## [0.8.1] – 2026-09-26
+
+### Fixed
+- SKILL.md again tells the model to delete template comments and empty sections (lost in the 0.8.0 rewrite; 3 of 5 sampled documents kept the header comment).
+- Replies no longer describe how the work was done (linter, register, templates, rules).
+- Reread negations and „undecided” statements before finishing (a document said „Decyzja pozostaje rozstrzygnięta”, missing „nie”).
+
+### Added
+- Linter: `template-comment` (guidance comments left in a document; only `DO UZUPEŁNIENIA` comments may stay) and `foreign-letter` (non-Polish letters in a word, a sign of garbled text).
+- Eval procedure: baselines run isolated from the skill; compare versions only on the same evals, model and grading.
+
 ## [0.8.0] – 2026-09-26
 
 ### Added

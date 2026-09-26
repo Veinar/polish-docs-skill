@@ -95,6 +95,14 @@ ASSUMPTIONS_HEADING = re.compile(r"^założenia\b(?! i niewiadome)", re.IGNORECA
 WRITER_NOTE_PHRASE = re.compile(r"\b(zleceni\w*|zlecając\w*|w poleceniu nie podano|prompt\w*)\b", re.IGNORECASE)
 
 PLACEHOLDER_RE = re.compile(r"<([^<>\n]+)>")
+CONTROL_CHAR = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f]")
+ISO_DATE_EN_DASH = re.compile(r"(?<!\d)(\d{4})\u2013(\d{2})\u2013(\d{2})(?!\d)")
+PRONOUN_MID_SENTENCE = re.compile(r"(?<=\w[ ,])(Twój|Twoja|Twoje|Twojego|Twojej|Twoim|Twoją|Twoich|Twoimi|Tobie|Ciebie|Ci)\b")
+# Past-tense 2nd person forms that force a gender (uruchomiłeś / uruchomiłaś)
+GENDERED_FORM = re.compile(r"\b(?:\w{3,}(?:łeś|łaś)|powinieneś|powinnaś)\b", re.IGNORECASE)
+# Letters that do not occur in Polish words; in Polish prose they usually mean a garbled word
+FOREIGN_LETTER_WORD = re.compile(r"\w*[àáâãäåçèéêëìíîïñòôõöøùúûüýÿ]\w*", re.IGNORECASE)
+KEPT_COMMENT = re.compile(r"(DO UZUPEŁNIENIA|markdownlint|prettier|vale |toc\b)", re.IGNORECASE)
 HTML_TAGS = {
     "br", "p", "div", "span", "details", "summary", "kbd", "code", "pre", "img", "a", "b", "i", "em",
     "strong", "table", "tr", "td", "th", "ul", "ol", "li", "hr", "sup", "sub", "picture", "source",
@@ -281,6 +289,29 @@ def check_placeholders(text, report, wanted_style):
 
 # ------------------------------------------------------------------- lint
 
+def strip_fenced(text):
+    """Blank fenced code blocks, keeping line numbers."""
+    out, fence = [], None
+    for line in text.split("\n"):
+        marker = re.match(r"^\s*(```|~~~)", line)
+        if marker:
+            fence = marker.group(1) if fence is None else (None if marker.group(1) == fence else fence)
+            out.append("")
+        else:
+            out.append("" if fence else line)
+    return "\n".join(out)
+
+
+def check_leftover_comments(text, report):
+    """Template guidance comments must not survive into a finished document."""
+    body = strip_fenced(text)
+    for m in re.finditer(r"<!--(.*?)-->", body, re.DOTALL):
+        if KEPT_COMMENT.match(m.group(1).strip()):
+            continue
+        report(body.count("\n", 0, m.start()) + 1, 0, WARNING, "template-comment",
+               "HTML comment left in the document (template guidance?); delete it (only DO UZUPEŁNIENIA comments may stay)")
+
+
 def lint(path, register, placeholder_style="auto"):
     text = path.read_text(encoding="utf-8")
     findings = []
@@ -293,8 +324,16 @@ def lint(path, register, placeholder_style="auto"):
             report(number, m.start(), ERROR, "em-dash", f"em dash (U+2014); use en dash „{EN_DASH}” (U+2013)")
         for m in re.finditer(r"(?<=\S) - (?=\S)", prose):
             report(number, m.start(), ERROR, "hyphen-dash", f"hyphen used as a dash; use spaced en dash „ {EN_DASH} ”")
-        for m in re.finditer(r'"', prose):
-            report(number, m.start(), ERROR, "straight-quote", "straight quote; use „…”")
+        straight = prose.count('"')
+        if straight and straight % 2 == 0:
+            report(number, prose.index('"'), ERROR, "straight-quote", f"{straight} straight quotes; use „…” (--fix does this)")
+        elif straight:
+            report(number, prose.index('"'), ERROR, "straight-quote-odd",
+                   f"odd number of straight quotes, --fix cannot pair them; edit by hand: {line.strip()[:70]}")
+        if re.search(r'""', prose) or re.search(r"„[\s\x00-\x1f]*”", line):
+            report(number, 0, ERROR, "empty-quotes", "empty quotation marks: a reference or placeholder was lost; restore or remove it")
+        for m in ISO_DATE_EN_DASH.finditer(prose):
+            report(number, m.start(), ERROR, "iso-date-dash", f"ISO date {m.group(0)} uses en dashes; ISO dates keep hyphens (--fix does this)")
         for m in re.finditer(ENGLISH_OPEN_QUOTE, prose):
             report(number, m.start(), ERROR, "english-quote", f"English opening quote {ENGLISH_OPEN_QUOTE}; use {OPEN_QUOTE} (U+201E)")
 
@@ -316,8 +355,10 @@ def lint(path, register, placeholder_style="auto"):
                    f"{m.group(0)} reads as a decimal in Polish; for thousands use a space or no separator")
 
         # Pronouns addressing the reader are lowercase in documentation (uppercase is for letters)
-        for m in re.finditer(r"(?<=\w[ ,])(Twój|Twoja|Twoje|Twojego|Twojej|Twoim|Twoją|Twoich|Twoimi|Tobie|Ciebie|Ci)\b", prose):
-            report(number, m.start(), WARNING, "pronoun-case", f"„{m.group(0)}” mid-sentence; use lowercase in documentation")
+        for m in PRONOUN_MID_SENTENCE.finditer(prose):
+            report(number, m.start(), WARNING, "pronoun-case", f"„{m.group(0)}” mid-sentence; use lowercase in documentation (--fix does this)")
+        for m in GENDERED_FORM.finditer(prose):
+            report(number, m.start(), WARNING, "gendered-form", f"„{m.group(0)}” forces a gender; rephrase (present tense, impersonal)")
         for m in POSSESSIVE_RE.finditer(prose):
             report(number, m.start(), WARNING, "possessive",
                    f"„{m.group(0)}” is often a calque of English „your”; drop it when ownership is obvious")
@@ -335,6 +376,10 @@ def lint(path, register, placeholder_style="auto"):
             report(number, m.start(), WARNING, "writer-note",
                    f"„{m.group(0)}” refers to the request, not the reader; move it to your reply")
 
+        for m in FOREIGN_LETTER_WORD.finditer(prose):
+            report(number, m.start(), WARNING, "foreign-letter",
+                   f"„{m.group(0)}” has a non-Polish letter; possibly a garbled word")
+
         lowered = prose.lower()
         for pattern, suggestion in CALQUES:
             for m in re.finditer(pattern, lowered):
@@ -348,15 +393,52 @@ def lint(path, register, placeholder_style="auto"):
             for m in SLANG_RE.finditer(prose):
                 report(number, m.start(), WARNING, "slang", f"„{m.group(0)}” is slang; allowed only in the potoczna register")
 
+    for number, raw in enumerate(text.splitlines(), 1):
+        for m in CONTROL_CHAR.finditer(raw):
+            report(number, m.start(), ERROR, "control-char",
+                   f"control character U+{ord(m.group(0)):04X}: a botched search-and-replace (unescaped \\1?); restore the text by hand")
     check_placeholders(text, report, placeholder_style)
+    check_leftover_comments(text, report)
     return findings
 
 
 # -------------------------------------------------------------------- fix
 
+FENCE_BLOCK = re.compile(r"(?ms)^([ \t]*)(```|~~~)[^\n]*\n.*?^\1\2[^\n]*$")
+
+
+def remove_leftover_comments(text):
+    """Delete template guidance comments outside fenced code; returns (text, number removed)."""
+    fences = []
+
+    def protect(match):
+        fences.append(match.group(0))
+        return f"\x00FENCE{len(fences) - 1}\x00"
+
+    body = FENCE_BLOCK.sub(protect, text)
+    removed = 0
+
+    def drop(match):
+        nonlocal removed
+        if KEPT_COMMENT.match(match.group(1).strip()):
+            return match.group(0)
+        removed += 1
+        return ""
+
+    body = re.sub(r"<!--(.*?)-->[ \t]*", drop, body, flags=re.DOTALL)
+    if removed:
+        body = re.sub(r"\n{3,}", "\n\n", body).lstrip("\n")
+    for index, block in enumerate(fences):
+        body = body.replace(f"\x00FENCE{index}\x00", block)
+    return body, removed
+
+
 def fix_text(text):
-    """Apply mechanical typography fixes. Returns (new_text, Counter of fixes)."""
+    """Apply mechanical fixes. Returns (new_text, Counter of fixes)."""
     counts = Counter()
+    text, removed = remove_leftover_comments(text)
+    if removed:
+        counts["template comment"] += removed
     lines = text.splitlines(keepends=True)
     for number, line, prose in prose_lines(text):
         body = line.rstrip("\r\n")
@@ -377,6 +459,12 @@ def fix_text(text):
         for m in re.finditer(ENGLISH_OPEN_QUOTE, prose):
             edits.append((m.start(), m.end(), OPEN_QUOTE))
             counts["English quote"] += 1
+        for m in ISO_DATE_EN_DASH.finditer(prose):
+            edits.append((m.start(), m.end(), f"{m.group(1)}-{m.group(2)}-{m.group(3)}"))
+            counts["ISO date"] += 1
+        for m in PRONOUN_MID_SENTENCE.finditer(prose):
+            edits.append((m.start(), m.end(), m.group(0)[0].lower() + m.group(0)[1:]))
+            counts["pronoun case"] += 1
         straight = [m.start() for m in re.finditer(r'"', prose)]
         if straight and len(straight) % 2 == 0:
             for index, position in enumerate(straight):
@@ -454,6 +542,8 @@ def main():
     errors = sum(1 for f in findings if f[3] == ERROR)
     warnings = len(findings) - errors
     print(f"{errors} error(s), {warnings} warning(s)")
+    if args.fix and findings:
+        print("Fix what is listed by hand in one pass, then deliver. Do not run --fix again.")
     return 1 if errors or (args.strict and warnings) else 0
 
 

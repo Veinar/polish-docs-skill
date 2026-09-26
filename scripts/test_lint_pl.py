@@ -89,6 +89,53 @@ class Language(unittest.TestCase):
         self.assertIn("writer-note", codes("Zlecenie nie określało wersji.\n"))
 
 
+class Leftovers(unittest.TestCase):
+    def test_template_comments_are_flagged(self):
+        self.assertIn("template-comment", codes("<!-- Rejestr: publiczna. Szablon. -->\n# Tytuł\n"))
+        self.assertIn("template-comment", codes("Tekst.\n<!--\nwielowierszowy\n-->\n"))
+
+    def test_allowed_comments_and_code_blocks(self):
+        self.assertNotIn("template-comment", codes("<!-- DO UZUPEŁNIENIA: adres -->\nTekst.\n"))
+        self.assertNotIn("template-comment", codes("```html\n<!-- komentarz w przykładzie -->\n```\n"))
+
+    def test_garbled_words(self):
+        self.assertIn("foreign-letter", codes("Obecność présencję tutaj.\n"))
+        self.assertNotIn("foreign-letter", codes("Zażółć gęślą jaźń, ósemka.\n"))
+
+
+class FixExtras(unittest.TestCase):
+    def test_fix_removes_template_comments_but_keeps_allowed_ones(self):
+        source = "<!-- Rejestr: publiczna. -->\n# T\n\n<!-- wskazówka -->\nTekst.\n\n```html\n<!-- w kodzie -->\n```\n\n<!-- DO UZUPEŁNIENIA: x -->\n"
+        fixed, counts = lint_pl.fix_text(source)
+        self.assertEqual(fixed, "# T\n\nTekst.\n\n```html\n<!-- w kodzie -->\n```\n\n<!-- DO UZUPEŁNIENIA: x -->\n")
+        self.assertEqual(counts["template comment"], 2)
+
+    def test_iso_dates_keep_hyphens(self):
+        self.assertIn("iso-date-dash", codes("Data 2026\u201309\u201326.\n"))
+        self.assertEqual(lint_pl.fix_text("Data 2026\u201309\u201326.\n")[0], "Data 2026-09-26.\n")
+        self.assertNotIn("iso-date-dash", codes("Data 2026-09-26.\n"))
+
+    def test_mid_sentence_pronoun_is_lowercased(self):
+        self.assertEqual(lint_pl.fix_text("Jeśli Twój klucz działa.\n")[0], "Jeśli twój klucz działa.\n")
+        self.assertEqual(lint_pl.fix_text("Twój klucz działa.\n")[0], "Twój klucz działa.\n")
+
+    def test_empty_and_odd_quotes(self):
+        self.assertIn("empty-quotes", codes("Przejdź do sekcji \u201e\u201d.\n"))
+        self.assertNotIn("empty-quotes", codes("Użyj `x` w \u201e`y`\u201d.\n"))
+        odd = codes('Odd "cudzysłów.\n')
+        self.assertIn("straight-quote-odd", odd)
+
+    def test_control_characters_from_botched_replacements(self):
+        text = "Przejdź do sekcji \u201e\x01\u201d.\n"
+        found = codes(text)
+        self.assertIn("control-char", found)
+        self.assertIn("empty-quotes", found)
+
+    def test_gendered_forms(self):
+        self.assertIn("gendered-form", codes("Zainstalowałeś pakiet.\n"))
+        self.assertNotIn("gendered-form", codes("Opadłe liście leżą.\n"))
+
+
 class Registers(unittest.TestCase):
     def test_jargon_only_in_publiczna(self):
         text = "Zdeployuj usługę i zmerguj brancha.\n"

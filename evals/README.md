@@ -4,6 +4,8 @@
 
 - **Never run the full set.** It has 34 evals and one iteration costs far too many tokens. Run a random sample of about 5 (`scripts/pick_evals.py`). Evals never sampled before are preferred, so the whole set is covered over time.
 - **Always use the cheapest model (Haiku).** Runs from different models are not comparable. Record the model with `run_meta.json`.
+- **Isolate the baseline.** `without_skill` subagents must not see the skill: run them in an empty scratch directory (or a copy of the repo without `skills/`) and tell them to work only from the task text. Iteration 5 had a baseline that read the skill's templates and quoted its conventions, which made the comparison meaningless.
+- **Compare like with like.** Compare versions of the skill on the same evals, on the same model, with the same grading method. Pass rates from different evals or graders are not comparable; lint findings per 1000 words are.
 - **Reuse baselines.** `without_skill` runs depend only on the prompt and the model; reuse them and run only `with_skill`.
 - **Free metric first.** `scripts/lint_metrics.py` (lint findings per 1000 words) needs no model calls. Grade with assertions only the sampled evals, and only for judgment (completeness, fidelity, naturalness).
 - **Watch the cost of a run.** A small task should not cost much more with the skill than without it. If it does, shrink the skill (fast path, on-demand references) before adding rules.
@@ -31,6 +33,8 @@ python scripts/pick_evals.py --n 4 --tag fidelity
 /skill-creator:skill-creator Run iteration-N of evals/evals.json for skills/writing-docs-in-polish,
 ONLY evals with ids <ids>. Use model haiku for every subagent. Run with_skill and without_skill.
 Grade only these evals. Generate a static review page.
+Every without_skill subagent works in an empty scratch directory and must not read anything under /app/skills or /app/evals; every with_skill subagent may read only the skill directory.
+Record total_tokens and duration in timing.json for every run.
 ```
 
 ```bash

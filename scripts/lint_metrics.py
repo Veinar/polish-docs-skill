@@ -60,7 +60,7 @@ def main():
 
     lint_pl = load_linter()
     iteration = Path(args.iteration)
-    table, totals = {}, {"with_skill": Counter(), "without_skill": Counter()}
+    table, totals = {}, {"with_skill": Counter(), "old_skill": Counter(), "without_skill": Counter()}
     for eval_dir in sorted(iteration.glob("eval-*")):
         match = re.match(r"eval-(\d+)(?:-|$)", eval_dir.name)
         register = registers.get(int(match.group(1))) if match else None
@@ -68,7 +68,7 @@ def main():
             print(f"skip {eval_dir.name}: no `register` in evals file", file=sys.stderr)
             continue
         row = {}
-        for config in ("with_skill", "without_skill"):
+        for config in ("with_skill", "old_skill", "without_skill"):
             # layouts seen: <config>/run-1/outputs and <config>/outputs
             runs = sorted((eval_dir / config).glob("run-*")) or ([eval_dir / config] if (eval_dir / config / "outputs").exists() else [])
             if runs:
@@ -77,17 +77,19 @@ def main():
                     totals[config][key] += row[config][key]
         table[eval_dir.name] = row
 
-    print(f"{'eval':46} {'with: E/W  per1k':>20} {'without: E/W  per1k':>22}")
+    configs = [c for c in ("with_skill", "old_skill", "without_skill") if totals[c]["words"]]
+    print(f"{'eval':22}" + "".join(f"{c + ' E/W per1k':>26}" for c in configs))
     for name, row in table.items():
         cells = []
-        for config in ("with_skill", "without_skill"):
+        for config in configs:
             m = row.get(config)
             cells.append(f"{m['errors']:>3}/{m['warnings']:<3} {m['per_1000']:>6}" if m and m["per_1000"] is not None else "-")
-        print(f"{name[:46]:46} {cells[0]:>20} {cells[1]:>22}")
+        print(f"{name[:22]:22}" + "".join(f"{c:>26}" for c in cells))
     summary = {}
-    for config, t in totals.items():
-        summary[config] = round((t["errors"] + t["warnings"]) * 1000 / t["words"], 1) if t["words"] else None
-    print(f"{'TOTAL per 1000 words':46} {str(summary['with_skill']):>20} {str(summary['without_skill']):>22}")
+    for config in configs:
+        t_ = totals[config]
+        summary[config] = round((t_["errors"] + t_["warnings"]) * 1000 / t_["words"], 1)
+    print(f"{'TOTAL per 1000 words':22}" + "".join(f"{str(summary[c]):>26}" for c in configs))
     (iteration / "lint_metrics.json").write_text(
         json.dumps({"per_eval": table, "total_per_1000": summary}, ensure_ascii=False, indent=2), encoding="utf-8")
     return 0

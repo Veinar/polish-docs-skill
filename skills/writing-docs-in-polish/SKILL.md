@@ -4,7 +4,7 @@ description: Writes, edits, translates and proofreads technical documentation in
 license: MIT
 metadata:
   author: Veinar
-  version: "0.8.0"
+  version: "0.8.2"
 ---
 
 # Writing documentation in Polish
@@ -27,12 +27,12 @@ Small tasks (a paragraph, a few lines, one short section): apply the core rules 
    - inżynierska: `adr`, `runbook`, `postmortem`
    - potoczna: `pull-request`, `commit-message`
 
-   Registers: **publiczna** = external readers, Polish verbs (wdrożyć, zbudować), English nouns inflected. **inżynierska** = internal, engineers' jargon (zdeployuj, zrollbackuj), no slang. **potoczna** = PR, commit, chat: jargon and slang. One register per document.
+   Registers: **publiczna** = external readers, Polish verbs (wdrożyć, zbudować), English nouns inflected. **inżynierska** = internal, engineers' jargon (zdeployuj, zrollbackuj), no slang. **potoczna** = PR, commit, chat: jargon and slang. Default publiczna; use inżynierska when the user says the text is for their team or internal ("pisz jak piszemy w zespole", "dla zespołu"). One register per document.
 2. **Conventions.** With a repository run `python scripts/detect_conventions.py <repo>` and match its language, filename style and the case of identifiers and placeholders (snake_case, camelCase, kebab-case, PascalCase). Its glossary and the user's terms win over this skill; never rename them.
 3. **Scope.** List what the reader needs: prerequisites, dependencies, side effects, limits, failure modes, verification, undo. For a translation: every warning, negation, value and example.
-4. **Draft** from the template.
-5. **Completeness.** Add what is missing, even beyond the template: every prerequisite named; every destructive step preceded by a warning and a way to check the current state; what the change does not undo; verification and rollback; likely failures; nothing from the source dropped or reversed; no guess about a tool presented as fact.
-6. **Lint.** `python scripts/lint_pl.py --fix --register <publiczna|inzynierska|potoczna> <file>` fixes dashes and quotes and lists the rest. Fix or dismiss false positives; run it at most twice.
+4. **Draft** from the template: fill it in, then delete every `<!-- … -->` comment and every empty section.
+5. **Completeness.** Add what is missing, even beyond the template: every prerequisite named; every destructive step preceded by a warning and a way to check the current state; what the change does not undo; verification and rollback; likely failures; nothing from the source dropped or reversed (reread every negation and every "undecided" statement); no guess about a tool presented as fact.
+6. **Lint.** `python scripts/lint_pl.py --fix --register <publiczna|inzynierska|potoczna> <file>` fixes dashes, quotes, ISO dates, leftover template comments and a mid-sentence "Twój", and lists the rest. Fix what is listed by hand in one pass (dismiss false positives), then deliver. Never loop.
 
 Terms: `python scripts/term.py <word> ...` prints only the matching glossary rows (EN→PL, jargon per register, calques). Do not read the glossaries. Other references, only when needed: `references/content-types.md` (admonition labels, version notes), `references/requirements-language.md` (MUST/SHOULD in specs), `references/style.md` (GUI steps), `references/typography.md`.
 
@@ -45,7 +45,7 @@ Terms: `python scripts/term.py <word> ...` prints only the matching glossary row
 - **Code stays code:** never translate or invent identifiers, commands, flags or output; use backticks and inflect around them ("w pliku `config.yaml`").
 - **Placeholders:** the project's case, else ASCII snake_case. In code: ASCII, no spaces. In prose (UI labels): `**<nazwa przycisku>**`. One style per document.
 - **Terminology:** one term per concept; established Polish or inflected English (commita, poda). No "serwis" for *service* (use "usługa" or `Service`); "okno serwisowe" is fine. Give the original on first use of an ambiguous term.
-- **Facts:** placeholders for missing details; assumptions go in your reply, not the file (an ADR or specification may have its own "Założenia i niewiadome"). A gap the user declared unknown stays unknown: no example values, no "defined elsewhere".
-- **Deliver only the deliverable:** no source echo, notes or preface; for a file, a 2–3 line reply (path, assumptions, open points).
-- **Dashes:** en dash only, spaced as a sentence dash, unspaced in ranges (10–20). Never an em dash, changelog headings included.
+- **Facts:** placeholders for missing details; never invent UI labels, menu names or paths (write **<nazwa opcji>**); assumptions go in your reply, not the file (an ADR or specification may have its own "Założenia i niewiadome"). A gap the user declared unknown stays unknown: no example values, no "defined elsewhere".
+- **Deliver only the deliverable:** no source echo, notes or preface; for a file, a 2–3 line reply (path, assumptions, open points). The reply never describes how you worked (linter, register, templates, rules).
+- **Dashes:** en dash only, spaced as a sentence dash, unspaced in ranges (10–20). Never an em dash, changelog headings included. Hyphens stay in ISO dates, compounds (klient-serwer), versions and identifiers.
 - **Numbers and quotes:** decimal comma (0,5 s), space as thousands separator, space before units (512 MiB), dates "26 września 2026 r." or ISO; quotes „…”.

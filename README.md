@@ -16,7 +16,7 @@ Skill nie zastępuje przeglądu przez osobę, która zna projekt i jego terminol
 ## Co potrafi
 
 - Pisze dokumenty według gotowych szablonów: samouczki, instrukcje, opisy koncepcji, dokumentację poleceń CLI, SQL i API, specyfikacje, README, ADR-y, runbooki, postmortemy, dziennik zmian, opisy PR-ów i komunikaty commitów.
-- Tłumaczy i poprawia teksty, zachowując każdą negację, ostrzeżenie, limit i wartość ze źródła. Nie dopisuje faktów, których nie podałeś.
+- Tłumaczy i poprawia teksty, zachowując każdą negację, ostrzeżenie, limit i wartość ze źródła. Nie dopisuje faktów, których nie ma w poleceniu.
 - Dobiera rejestr języka do odbiorcy: dokumentacja publiczna używa polskich czasowników (wdrożyć, zbudować), dokumentacja zespołowa naturalnego żargonu (`zdeployuj`, `zrollbackuj`).
 - Dopasowuje się do projektu: wykrywa język istniejących dokumentów, styl nazw plików oraz zapis identyfikatorów i symboli zastępczych (snake_case, camelCase, kebab-case, PascalCase) i nie narzuca własnego.
 - Pilnuje typografii: półpauza zamiast pauzy, cudzysłowy „…”, przecinek dziesiętny, nagłówki z małej litery.
@@ -150,7 +150,7 @@ Skill korzysta ze skryptów, które możesz uruchamiać także samodzielnie. Pon
 python skills/writing-docs-in-polish/scripts/lint_pl.py --fix --register publiczna docs/
 ```
 
-Opcja `--fix` sama poprawia półpauzy i cudzysłowy, a resztę wypisuje. Opcja `--strict` traktuje ostrzeżenia jak błędy, a `--placeholder-style camel` wymusza zapis symboli zastępczych (do wyboru: `snake`, `camel`, `kebab`, `pascal`).
+Opcja `--fix` sama poprawia półpauzy, cudzysłowy, daty ISO i pozostawione komentarze szablonu, a resztę wypisuje. Opcja `--strict` traktuje ostrzeżenia jak błędy, a `--placeholder-style camel` wymusza zapis symboli zastępczych (do wyboru: `snake`, `camel`, `kebab`, `pascal`).
 
 **Słownik.** Wypisuje tylko pasujące wiersze glosariusza: odpowiedniki terminów, formy żargonowe dla każdego rejestru i kalki.
 
@@ -194,7 +194,7 @@ Przed wysłaniem zmian uruchom z katalogu głównego:
 ```bash
 python scripts/validate_skills.py
 python -m unittest discover -s scripts
-python skills/writing-docs-in-polish/scripts/lint_pl.py --strict --ignore placeholder-prose skills/writing-docs-in-polish/assets/templates
+python skills/writing-docs-in-polish/scripts/lint_pl.py --strict --ignore placeholder-prose,template-comment skills/writing-docs-in-polish/assets/templates
 claude plugin validate .
 ```
 
@@ -208,7 +208,7 @@ Propozycje terminów, poprawki i zgłoszenia błędów przekazuj jako issue lub 
 
 ## Wersja i historia zmian
 
-Aktualna wersja: 0.8.0. Historia zmian: [CHANGELOG.md](CHANGELOG.md) (w języku angielskim).
+Aktualna wersja: 0.8.2. Historia zmian: [CHANGELOG.md](CHANGELOG.md) (w języku angielskim).
 
 ## Licencja
 
