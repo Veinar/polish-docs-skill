@@ -1,0 +1,7 @@
+{
+  "name": "datasync",
+  "version": "2.4.0",
+  "description": "CLI do synchronizacji danych między bazami",
+  "bin": { "datasync": "dist/cli.js" },
+  "scripts": { "build": "tsc", "test": "vitest run" }
+}

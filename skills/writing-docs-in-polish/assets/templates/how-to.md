@@ -1,4 +1,4 @@
-<!-- Rejestr: publiczna (dla użytkowników) lub wewnętrzna (dla zespołu). Instrukcja rozwiązuje jeden konkretny problem czytelnika, który zna podstawy. -->
+<!-- Rejestr: publiczna (dla użytkowników) lub inżynierska (dla zespołu). Instrukcja rozwiązuje jeden konkretny problem czytelnika, który zna podstawy. Szablon wyznacza strukturę, a nie limit treści: dodaj sekcję, gdy temat tego wymaga, i nie pomijaj istotnych informacji technicznych. -->
 # <Rzeczownik odczasownikowy określający cel, np. „Konfigurowanie TLS dla bramy API”>
 
 <Jedno zdanie: kiedy i po co wykonuje się to zadanie.>

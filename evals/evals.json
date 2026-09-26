@@ -3,6 +3,11 @@
   "evals": [
     {
       "id": 6,
+      "register": "publiczna",
+      "tags": [
+        "translation",
+        "gui"
+      ],
       "prompt": "Przetłumacz na polski ten fragment instrukcji: 'Before you begin, make sure you have kubectl installed. Run `kubectl get pods` and wait until your Pod shows Running. If you see ContainerCreating, try again in a few seconds. For more details, refer to the Pods concept page.'",
       "expected_output": "Natural Polish: 'Zanim zaczniesz', no possessive 'twój', status values kept in English and glossed („Running” (działa)), 'Więcej informacji znajdziesz…' instead of 'odwołaj się do', consistent pod/Pod usage.",
       "files": [],
@@ -12,11 +17,17 @@
         "Status values Running and ContainerCreating are kept in English and glossed in Polish (e.g. „Running” (działa))",
         "Uses „Więcej informacji znajdziesz…” (or equivalent natural phrasing), not „odwołaj się do”/„odnieś się do”",
         "pod/Pod casing is consistent and `kubectl get pods` is left untranslated",
-        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine"
+        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine",
+        "The reply does not mention a skill, its rules, conventions or files"
       ]
     },
     {
       "id": 7,
+      "register": "inzynierska",
+      "tags": [
+        "runbook",
+        "jargon"
+      ],
       "prompt": "Napisz runbook dla naszego zespołu: jak zrollbackować nieudany deployment serwisu `payments-api` na klastrze produkcyjnym (kubectl rollout undo), sprawdzić status podów i dać znać na kanale #incydenty.",
       "expected_output": "Internal register: natural jargon (zrollbackuj, deployment, pody, poda) spelled per prefix/apostrophe rules, not formal 'wycofaj wdrożenie'; one register throughout; commands untranslated; runbook structure with verification step.",
       "files": [],
@@ -26,11 +37,16 @@
         "One register is used throughout (no switching between jargon and formal public phrasing)",
         "Commands (`kubectl rollout undo`, `kubectl get pods`, `kubectl rollout status`) are left untranslated in code",
         "Includes a verification step checking pod/rollout status after the rollback",
-        "Includes a step to notify the #incydenty channel"
+        "Includes a step to notify the #incydenty channel",
+        "Any statement about what `kubectl rollout undo` does is correct: it returns to the previous revision of the Deployment (not to the currently running one) and does not revert ConfigMap/Secret changes or database migrations"
       ]
     },
     {
       "id": 8,
+      "register": "publiczna",
+      "tags": [
+        "invented-facts"
+      ],
       "prompt": "Przygotuj publiczną dokumentację dla klientów: jak wdrożyć naszą aplikację na własnym klastrze Kubernetes za pomocą Helm charta.",
       "expected_output": "Public register: Polish verbs (wdróż, uruchom ponownie), no jargon verbs like 'zdeployuj'; established nouns (pod, chart) inflected; task template.",
       "files": [],
@@ -39,13 +55,19 @@
         "Established nouns (pod, chart, release) are inflected correctly (e.g. „chartu”, „podów”)",
         "Follows a task/how-to structure: prerequisites (e.g. Zanim zaczniesz / Wymagania), numbered steps, verification",
         "Helm/kubectl commands and flags are left untranslated in code blocks",
-        "Headings are in Polish sentence case",
         "Addresses the customer consistently in one form (ty or Państwo), without mixing",
-        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine"
+        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine",
+        "Requirements not given in the request (Kubernetes or PostgreSQL versions, CPU/RAM sizes, licence keys) are not stated as facts; placeholders or version-agnostic wording are used",
+        "The reply does not mention a skill, its rules, conventions or files"
       ]
     },
     {
       "id": 9,
+      "register": "publiczna",
+      "tags": [
+        "gui",
+        "invented-facts"
+      ],
       "prompt": "Napisz instrukcję dla naszych klientów: jak włączyć uwierzytelnianie dwuskładnikowe (2FA) w portalu klienta za pomocą aplikacji Google Authenticator lub Microsoft Authenticator. Portal jest po polsku.",
       "expected_output": "Public how-to for non-technical users: numbered steps, UI labels in bold, invented portal labels marked as placeholders or assumptions, recovery codes and lost-phone guidance, consistent 'ty' without gendered forms.",
       "files": [],
@@ -55,12 +77,16 @@
         "Portal labels or paths not given in the prompt are marked as placeholders or listed as assumptions, not presented as fact",
         "Explains backup/recovery codes and what to do if the phone is lost",
         "Addresses the reader consistently as 'ty' with no gender-forcing forms (e.g. „włączyłeś”, „chciałbyś”)",
-        "lint_pl.py reports 0 errors (no em dash, no hyphen used as a dash, Polish „…” quotes)",
-        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine"
+        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine",
+        "The reply does not mention a skill, its rules, conventions or files"
       ]
     },
     {
       "id": 10,
+      "register": "publiczna",
+      "tags": [
+        "tutorial"
+      ],
       "prompt": "Przygotuj samouczek dla początkujących użytkowników Linuksa: pierwsza kopia zapasowa katalogu domowego na dysk zewnętrzny za pomocą restic, łącznie z odtworzeniem jednego pliku.",
       "expected_output": "Tutorial with Cele / Zanim zaczniesz / numbered steps / Sprzątanie or Co dalej, expected output after commands, restore and verify a single file, password-loss warning before init, consistent terminology.",
       "files": [],
@@ -72,11 +98,17 @@
         "restic commands and flags are untranslated in code blocks and placeholders are explained",
         "Terminology is consistent (e.g. repozytorium, migawka, kopia zapasowa are not alternated with snapshot/backup)",
         "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine",
-        "No redundant possessives („twój plik”, „twoja kopia”) where ownership is obvious from context"
+        "No redundant possessives („twój plik”, „twoja kopia”) where ownership is obvious from context",
+        "The reply does not mention a skill, its rules, conventions or files"
       ]
     },
     {
       "id": 11,
+      "register": "publiczna",
+      "tags": [
+        "destructive",
+        "completeness"
+      ],
       "prompt": "Napisz procedurę dla administratorów: wymiana uszkodzonego dysku w programowym RAID 1 (mdadm) na serwerze z Ubuntu 24.04, bez utraty danych.",
       "expected_output": "Risky admin how-to: identify failed disk first, warnings before destructive steps, copy partition table, add to array, monitor resync, GRUB on new disk, verification, public register.",
       "files": [],
@@ -88,26 +120,36 @@
         "Has a verification section confirming the array is healthy (e.g. [UU], state clean)",
         "Uses public register: Polish verbs, no jargon verbs such as „zrebuildować”, „zsyncować”; commands untranslated",
         "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine",
-        "Covers making the change durable and bootable (e.g. updating mdadm.conf/initramfs, bootloader for BIOS or UEFI) or states the scope explicitly"
+        "Covers making the change durable and bootable (e.g. updating mdadm.conf/initramfs, bootloader for BIOS or UEFI) or states the scope explicitly",
+        "When the removed disk is reused or the new disk is not blank, includes wiping old RAID metadata (`mdadm --zero-superblock` or `wipefs`), and warns before partitioning or formatting the new disk",
+        "The reply does not mention a skill, its rules, conventions or files"
       ]
     },
     {
       "id": 12,
+      "register": "publiczna",
+      "tags": [
+        "translation",
+        "gui"
+      ],
       "prompt": "Przetłumacz na polski ten fragment pomocy aplikacji. Interfejs aplikacji jest tylko po angielsku.\n\n## Exporting Your Data\n\nTo export your data, please follow the steps below:\n\n1. Click on the Account icon in the top right corner and select Settings.\n2. In the Settings window, go to the Data & Privacy tab \u2014 it's the third tab from the left.\n3. Under \"Export\", check \"Include attachments\" if you want your files too. Exports larger than 2.5 GB are split into parts of up to 1,000 files.\n4. Click Request export. You'll receive an email once your export is ready (usually within 24 hours).\n\nWarning: The download link expires after 7 days. Once you've downloaded your archive, we recommend deleting it from shared computers.",
       "expected_output": "Natural Polish help text: sentence-case heading without possessive, English UI labels in bold with one-time gloss, localized numbers (2,5 GB, 1000), no „proszę”/„kliknij na”, no gendered past forms, em dash and straight quotes converted.",
       "files": [],
       "assertions": [
-        "The heading is in sentence case without a possessive (e.g. „Eksportowanie danych”, not „Eksportowanie Twoich Danych”)",
         "English UI labels (Account, Settings, Data & Privacy, Include attachments, Request export) are kept verbatim in bold, with a Polish gloss on first use",
         "Numbers are localized: 2,5 GB and 1000 (or 1 000); the output contains neither „2.5” nor „1,000”",
         "No filler or calques: no „proszę”/„prosimy”, no „kliknij na”, no redundant „twoje dane/pliki”",
         "No gender-forcing forms (e.g. „pobrałeś”, „otrzymałeś”); rephrased with present tense or impersonal forms",
-        "lint_pl.py reports 0 errors (no em dash, „…” quotes)",
         "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine"
       ]
     },
     {
       "id": 13,
+      "register": "inzynierska",
+      "tags": [
+        "jargon",
+        "invented-facts"
+      ],
       "prompt": "Napisz instrukcję onboardingową dla nowych devów w zespole: jak uzyskać dostęp do klastra staging – VPN (WireGuard), logowanie przez SSO do Teleporta, pobranie kubeconfiga i sprawdzenie dostępu. Pisz tak, jak piszemy w zespole.",
       "expected_output": "Internal-register onboarding how-to: natural jargon, numbered steps with a check after each access step, unknown hostnames/groups as placeholders or assumptions, where to ask for help.",
       "files": [],
@@ -117,9 +159,579 @@
         "Hostnames, group names and proxy addresses not given in the prompt are placeholders or listed as assumptions",
         "Says whom to contact or where to ask when access is denied",
         "Commands are untranslated in code blocks and placeholders are explained",
-        "lint_pl.py reports 0 errors (no em dash, no hyphen used as a dash, Polish „…” quotes)",
         "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine",
-        "No redundant possessives („twój plik”, „twoja kopia”) where ownership is obvious from context"
+        "No redundant possessives („twój plik”, „twoja kopia”) where ownership is obvious from context",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 14,
+      "register": "publiczna",
+      "tags": [
+        "fidelity",
+        "translation"
+      ],
+      "prompt": "Przetłumacz na polski ten fragment dokumentacji operacyjnej:\n\n\"The command restarts the application container. It does not restart the database container and does not apply pending database migrations. If the application was deployed with a newer schema version, restarting the container will not make the old database schema compatible.\"\n\nZachowaj znaczenie techniczne tekstu.",
+      "expected_output": "Naturalne tłumaczenie techniczne, zachowujące wszystkie negacje i ograniczenia. Restart kontenera aplikacji nie może zostać przedstawiony jako restart bazy ani jako wykonanie migracji.",
+      "files": [],
+      "assertions": [
+        "Explicitly states that the command restarts the application container",
+        "Explicitly states that it does not restart the database container",
+        "Explicitly states that it does not apply pending database migrations",
+        "Preserves the condition about a newer application schema and older database schema",
+        "Does not introduce any claim that restarting the application performs database migrations",
+        "Does not weaken or remove any negation from the source",
+        "Polish reads naturally and does not translate technical identifiers unnecessarily",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 15,
+      "register": "inzynierska",
+      "tags": [
+        "runbook",
+        "constraints"
+      ],
+      "prompt": "Napisz runbook dla administratora: aktualizacja aplikacji uruchomionej w Kubernetes z wersji 4.7 do 4.8. Aktualizacja wymaga wykonania backupu PostgreSQL przed rolloutem. Nowa wersja wymaga PostgreSQL 15 lub nowszego. Rollout nie zmienia schematu bazy automatycznie. Jeśli rollout zakończy się błędem, należy go zatrzymać i przeanalizować logi przed wykonaniem rollbacku.",
+      "expected_output": "Kompletny runbook zawierający prerequisites, backup, sprawdzenie wersji PostgreSQL, rollout, monitoring, failure handling i rollback. Nie wolno sugerować, że rollout automatycznie migruje bazę.",
+      "files": [],
+      "assertions": [
+        "Checks PostgreSQL version before the upgrade",
+        "Requires PostgreSQL 15 or newer",
+        "Places the PostgreSQL backup before the rollout",
+        "Explicitly states that the rollout does not automatically change the database schema",
+        "Includes a verification step after the rollout",
+        "Includes monitoring of rollout or pod status",
+        "States that a failed rollout should be investigated before rollback",
+        "Does not place rollback before investigation of the failure",
+        "Uses appropriate internal engineering terminology",
+        "Does not omit any of the five supplied technical constraints",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 16,
+      "register": "publiczna",
+      "tags": [
+        "fidelity",
+        "translation",
+        "spec"
+      ],
+      "prompt": "Przetłumacz na polski:\n\n\"The API supports idempotency keys. Clients MAY send an Idempotency-Key header. If the same key is reused with a different request body, the server MUST reject the request with HTTP 409. Reusing the same key with the same request body MAY return the original response.\"\n\nTo jest dokumentacja API dla developerów.",
+      "expected_output": "Techniczne tłumaczenie dokumentacji API z zachowaniem semantyki MAY/MUST, nazwy nagłówka i kodu HTTP.",
+      "files": [],
+      "assertions": [
+        "Preserves the distinction between MAY and MUST",
+        "States that clients may send the Idempotency-Key header",
+        "Keeps Idempotency-Key verbatim and formatted as a technical identifier",
+        "States that reusing the same key with a different request body results in HTTP 409",
+        "States that reusing the same key with the same body may return the original response",
+        "Does not translate or alter HTTP 409",
+        "Does not turn optional behavior into mandatory behavior",
+        "Does not turn mandatory rejection into optional behavior",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 17,
+      "register": "publiczna",
+      "tags": [
+        "reference",
+        "invented-facts"
+      ],
+      "prompt": "Napisz publiczną dokumentację endpointu POST /v1/backups. Endpoint przyjmuje JSON zawierający name i retention_days. Pole retention_days jest opcjonalne i domyślnie ma wartość 30. Pole name jest wymagane. Endpoint zwraca 202 Accepted, ponieważ backup jest wykonywany asynchronicznie. Nie obiecuj czasu zakończenia backupu.",
+      "expected_output": "Dokumentacja API po polsku, zachowująca identyfikatory JSON i endpoint, opisująca wymagane/opcjonalne pola, wartość domyślną i asynchroniczny charakter operacji.",
+      "files": [],
+      "assertions": [
+        "Keeps POST /v1/backups verbatim",
+        "Keeps JSON field names name and retention_days verbatim",
+        "Marks name as required",
+        "Marks retention_days as optional",
+        "States that retention_days defaults to 30",
+        "States that the endpoint returns HTTP 202 Accepted",
+        "Explains that backup execution is asynchronous",
+        "Does not invent a completion time or SLA",
+        "Does not imply that HTTP 202 means the backup is already complete",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 18,
+      "register": "publiczna",
+      "tags": [
+        "reference",
+        "invented-facts"
+      ],
+      "prompt": "Przygotuj dokumentację konfiguracji aplikacji. Zmienne środowiskowe:\n- DATABASE_URL \u2014 wymagane\n- REDIS_URL \u2014 opcjonalne, domyślnie redis://localhost:6379\n- LOG_LEVEL \u2014 opcjonalne, domyślnie info\n- API_TIMEOUT \u2014 opcjonalne, domyślnie 30s\n\nDokument ma być skierowany do developerów.",
+      "expected_output": "Reference/configuration documentation with a table or equivalent structured listing. Variable names unchanged, defaults explicit, no invented values.",
+      "files": [],
+      "assertions": [
+        "All four environment variables are documented",
+        "DATABASE_URL is marked as required",
+        "REDIS_URL is marked as optional",
+        "REDIS_URL default is exactly redis://localhost:6379",
+        "LOG_LEVEL default is exactly info",
+        "API_TIMEOUT default is exactly 30s or naturally localized without changing its meaning",
+        "Environment variable names are unchanged",
+        "No additional environment variables are invented",
+        "No default value is invented or changed",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 19,
+      "register": "inzynierska",
+      "tags": [
+        "hypotheses"
+      ],
+      "prompt": "Napisz instrukcję troubleshooting dla błędu Kubernetes:\n\nPod ma status CrashLoopBackOff. Kontener kończy się kodem 137. W logach nie ma błędu aplikacji. `kubectl describe pod` pokazuje `OOMKilled`. Nie zakładaj, że zwiększenie limitu pamięci jest właściwym rozwiązaniem \u2014 najpierw należy sprawdzić rzeczywiste zużycie pamięci i konfigurację limitów.",
+      "expected_output": "Troubleshooting guide prowadzący od obserwacji do hipotezy i weryfikacji. Nie może przedstawiać zwiększenia limitu pamięci jako automatycznej naprawy.",
+      "files": [],
+      "assertions": [
+        "Preserves CrashLoopBackOff exactly",
+        "Preserves exit code 137",
+        "Preserves OOMKilled exactly",
+        "Uses kubectl describe pod as a diagnostic command",
+        "Explains the relationship between exit code 137 and the observed OOMKilled condition without overclaiming",
+        "Requires checking actual memory usage before changing limits",
+        "Requires checking configured memory limits",
+        "Does not prescribe increasing the memory limit as the first or automatic fix",
+        "Separates observed facts from hypotheses",
+        "Includes a verification step after remediation",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 20,
+      "register": "inzynierska",
+      "tags": [
+        "hypotheses"
+      ],
+      "prompt": "Napisz analizę problemu produkcyjnego na podstawie danych:\n\nObjaw: wzrost latency API z P95 120 ms do 900 ms.\nCPU aplikacji: 35%.\nMemory: 62%.\nPostgreSQL CPU: 80%.\nLiczba requestów: bez zmian.\nW tym samym czasie wzrosła liczba slow queries.\n\nNie stwierdzaj, że PostgreSQL jest na pewno root cause. Przedstaw hipotezy i dane potrzebne do ich potwierdzenia.",
+      "expected_output": "Analiza hipotez, a nie arbitralna diagnoza. PostgreSQL jest jedną z istotnych hipotez ze względu na korelację, ale nie zostaje przedstawiony jako udowodniony root cause.",
+      "files": [],
+      "assertions": [
+        "Preserves all supplied metrics and values",
+        "Identifies increased database latency or slow queries as a plausible hypothesis",
+        "Does not state that PostgreSQL is proven to be the root cause",
+        "Distinguishes observations from hypotheses",
+        "Suggests concrete evidence needed to validate the database hypothesis",
+        "Considers at least one alternative hypothesis",
+        "Does not invent metrics or measurements",
+        "Uses the term root cause consistently or provides a clear Polish equivalent",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 21,
+      "register": "inzynierska",
+      "tags": [
+        "invented-facts"
+      ],
+      "prompt": "Napisz krótką dokumentację migracji z Docker Compose do Kubernetes. Źródłowy opis zawiera tylko te informacje: aplikacja ma kontener backendu, kontener workera, PostgreSQL i Redis. Nie podano liczby replik, ingressu, domeny, storage class ani namespace. Nie wymyślaj brakujących wartości.",
+      "expected_output": "Dokumentacja opisująca znane elementy migracji i wyraźnie wskazująca nieokreślone elementy bez prezentowania ich jako faktów.",
+      "files": [],
+      "assertions": [
+        "Mentions backend, worker, PostgreSQL and Redis",
+        "Does not invent a namespace",
+        "Does not invent a domain or hostname",
+        "Does not invent a storage class",
+        "Does not invent replica counts",
+        "Does not claim that an Ingress exists",
+        "Clearly identifies unspecified deployment details as requiring a project decision or supplied value",
+        "Does not append requester-facing meta commentary such as „Zlecenie nie określało”",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 22,
+      "register": "publiczna",
+      "tags": [
+        "destructive"
+      ],
+      "prompt": "Napisz instrukcję dla administratora dotyczącą polecenia `wipefs -a /dev/sdb`, które usuwa sygnatury systemów plików i RAID z dysku. Instrukcja ma być bezpieczna. Przed wykonaniem polecenia trzeba jednoznacznie potwierdzić, że /dev/sdb jest właściwym dyskiem.",
+      "expected_output": "Risky-operation documentation with prominent warning before the destructive command, explicit device verification and post-command verification.",
+      "files": [],
+      "assertions": [
+        "Places a prominent warning before the wipefs command",
+        "Explicitly states that wipefs -a is destructive",
+        "Requires identifying and verifying the target disk before executing the command",
+        "Does not assume that /dev/sdb is the correct disk without verification",
+        "Keeps wipefs -a /dev/sdb unchanged in code",
+        "Includes a verification step after the operation",
+        "Does not bury the warning after the destructive command",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 23,
+      "register": "inzynierska",
+      "tags": [
+        "destructive",
+        "runbook"
+      ],
+      "prompt": "Napisz runbook usuwania nieużywanego namespace Kubernetes. Namespace `staging-old` można usunąć tylko po potwierdzeniu, że nie działa tam żaden aktywny workload. Przed usunięciem trzeba sprawdzić Deployments, StatefulSets, Jobs, CronJobs i PVC. Usunięcie namespace jest nieodwracalne.",
+      "expected_output": "Safe administrative runbook with inventory, explicit confirmation, warning and destructive action only after verification.",
+      "files": [],
+      "assertions": [
+        "Checks Deployments before deletion",
+        "Checks StatefulSets before deletion",
+        "Checks Jobs before deletion",
+        "Checks CronJobs before deletion",
+        "Checks PVCs before deletion",
+        "Requires confirming that no active workload remains",
+        "Warns that namespace deletion is irreversible",
+        "Places the warning before the deletion command",
+        "Does not present deletion as the first step",
+        "Uses Kubernetes resource names accurately",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 24,
+      "register": "publiczna",
+      "tags": [
+        "fidelity",
+        "translation"
+      ],
+      "prompt": "Przetłumacz na polski fragment dokumentacji Git:\n\n\"If the branch has diverged from main, rebasing rewrites the branch history. Do not rebase a shared branch unless your team explicitly allows history rewriting. After rebasing, force-pushing may be required. Prefer --force-with-lease over --force because it provides an additional safety check.\"",
+      "expected_output": "Polskie tłumaczenie zachowujące ostrzeżenie dotyczące historii Git, shared branch, force-push i różnicę między --force-with-lease a --force.",
+      "files": [],
+      "assertions": [
+        "Explains that rebase rewrites branch history",
+        "Warns against rebasing a shared branch without explicit team permission",
+        "States that force-push may be required after rebasing",
+        "Keeps --force-with-lease and --force verbatim",
+        "States that --force-with-lease provides an additional safety check",
+        "Does not recommend --force as the safer option",
+        "Does not remove the warning about shared branches",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 25,
+      "register": "inzynierska",
+      "tags": [
+        "constraints"
+      ],
+      "prompt": "Napisz dokumentację GitOps dla repozytorium Argo CD. Stan klastra jest zarządzany z Git i ręczne zmiany wykonane przez kubectl mogą zostać nadpisane przez reconciliation. Developerzy nie powinni edytować zasobów produkcyjnych bezpośrednio w klastrze. Zmiany należy wykonywać w repozytorium i wdrażać przez istniejący workflow.",
+      "expected_output": "Internal engineering documentation explaining GitOps workflow and the consequences of manual kubectl changes.",
+      "files": [],
+      "assertions": [
+        "Explains that Git is the source of desired state",
+        "States that manual kubectl changes may be overwritten by reconciliation",
+        "Explicitly discourages direct production changes",
+        "Explains that changes should be made in the repository",
+        "Explains that the existing workflow is used to deploy changes",
+        "Uses natural internal terminology such as reconciliation/reconcile when appropriate",
+        "Does not claim that kubectl is forbidden in all environments unless stated",
+        "Does not invent an Argo CD Application name or repository URL",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 26,
+      "register": "publiczna",
+      "tags": [
+        "invented-facts"
+      ],
+      "prompt": "Napisz README dla narzędzia CLI `dbctl`. Komendy:\n- `dbctl backup` tworzy backup\n- `dbctl restore --snapshot <id>` przywraca snapshot\n- `dbctl status` pokazuje status ostatniej operacji\n\nExit code 2 oznacza nieprawidłowy argument. Exit code 3 oznacza błąd połączenia z bazą. Nie dopisuj innych funkcji.",
+      "expected_output": "Concise Polish README with exact command semantics and exit codes, without invented functionality.",
+      "files": [],
+      "assertions": [
+        "Documents all three supplied commands",
+        "Keeps command names unchanged",
+        "Explains that restore requires --snapshot <id>",
+        "Documents exit code 2 correctly",
+        "Documents exit code 3 correctly",
+        "Does not invent additional commands",
+        "Does not invent configuration options",
+        "Does not claim support for databases or storage systems not specified",
+        "Uses <id> as an ASCII placeholder",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 27,
+      "register": "publiczna",
+      "tags": [
+        "fidelity",
+        "translation",
+        "reference"
+      ],
+      "prompt": "Przetłumacz ten fragment dokumentacji API na polski, zachowując identyfikatory:\n\n\"The `timeout` parameter is optional. If omitted, the server uses 30 seconds. Setting it to 0 disables the timeout. Values below 0 are rejected with HTTP 400. Values above 300 are rejected with HTTP 400.\"\n\nDokumentacja jest skierowana do developerów.",
+      "expected_output": "Precise Polish API documentation preserving the three distinct value ranges and semantics of 0.",
+      "files": [],
+      "assertions": [
+        "Keeps `timeout` unchanged",
+        "States that timeout is optional",
+        "States that omitted timeout defaults to 30 seconds",
+        "States that timeout=0 disables the timeout",
+        "States that values below 0 result in HTTP 400",
+        "States that values above 300 result in HTTP 400",
+        "Does not imply that 0 means the default",
+        "Does not collapse the three cases into a single range",
+        "Keeps HTTP 400 unchanged",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 28,
+      "register": "inzynierska",
+      "tags": [
+        "invented-facts"
+      ],
+      "prompt": "Napisz instrukcję konfiguracji Prometheusa. Aplikacja udostępnia metryki pod `/metrics`. Endpoint wymaga HTTP GET. Nie wymaga uwierzytelniania. Metryki są wystawione na porcie 8080. Nie podano nazwy Kubernetes Service ani namespace.",
+      "expected_output": "Technical how-to showing a valid Prometheus scrape configuration pattern while explicitly leaving unspecified Service name and namespace as placeholders.",
+      "files": [],
+      "assertions": [
+        "Uses /metrics exactly",
+        "Uses HTTP GET",
+        "States that the endpoint does not require authentication",
+        "Uses port 8080",
+        "Does not invent a Service name",
+        "Does not invent a namespace",
+        "If a YAML example is provided, unknown identifiers are placeholders",
+        "Does not claim that the application already exposes a Kubernetes Service with a specific name",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 29,
+      "register": "inzynierska",
+      "tags": [
+        "adr",
+        "hypotheses"
+      ],
+      "prompt": "Przygotuj ADR porównujący REST i gRPC dla komunikacji między usługami. Dane wejściowe są ograniczone: REST jest już używany w projekcie; gRPC oferuje HTTP/2 i kontrakt oparty na protobuf; zespół ma doświadczenie z REST, ale nie podano danych benchmarkowych. Nie wybieraj arbitralnie zwycięzcy na podstawie własnych założeń. Decyzja w ADR ma pozostać jawnie nierozstrzygnięta.",
+      "expected_output": "Balanced ADR distinguishing known facts from assumptions and leaving the decision unresolved.",
+      "files": [],
+      "assertions": [
+        "Documents that REST is already used",
+        "Documents HTTP/2 and protobuf as supplied gRPC characteristics",
+        "Documents existing team experience with REST",
+        "Explicitly states that no benchmark data was supplied",
+        "Does not invent latency or throughput measurements",
+        "Does not claim that gRPC is faster in this project based only on generic knowledge",
+        "Does not claim that REST is better because the team knows it",
+        "Leaves the final decision explicitly unresolved",
+        "Separates facts from assumptions or unknowns",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 30,
+      "register": "publiczna",
+      "tags": [
+        "spec",
+        "invented-facts"
+      ],
+      "prompt": "Napisz specyfikację webhooka. Nadawca wysyła `POST /webhooks/events` z nagłówkiem `X-Signature`. Odbiorca MUSI odpowiedzieć kodem 2xx w ciągu 10 sekund. Nadawca ponawia próbę maksymalnie 3 razy. Po trzech nieudanych próbach zdarzenie trafia do dead-letter queue. Nie podano formatu payloadu ani algorytmu podpisu.",
+      "expected_output": "RFC-like Polish specification preserving requirements and explicitly not inventing payload or signature algorithm.",
+      "files": [],
+      "assertions": [
+        "Keeps POST /webhooks/events unchanged",
+        "Keeps X-Signature unchanged",
+        "States that receiver MUST respond with 2xx within 10 seconds",
+        "States that sender retries at most 3 times",
+        "States that after three failed attempts the event goes to a dead-letter queue",
+        "Does not invent a payload schema",
+        "Does not invent an HMAC algorithm or other signature algorithm",
+        "Clearly identifies the unspecified signature algorithm",
+        "Uses normative language consistently",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 31,
+      "register": "inzynierska",
+      "tags": [
+        "jargon",
+        "translation"
+      ],
+      "prompt": "Przetłumacz dokumentację narzędzia developerskiego. Zachowaj następujące terminy w ich naturalnej formie: deployment, build, pipeline, runner, pod, namespace, rollback. W zdaniach wewnętrznych możesz używać naturalnego polskiego żargonu, np. „zdeployuj”, „zbuildować”, „zrollbackować”. Nie polonizuj nazw API ani nazw zasobów Kubernetes.",
+      "expected_output": "Natural internal engineering Polish using established developer jargon while preserving technical identifiers.",
+      "files": [],
+      "assertions": [
+        "Uses deployment, build, pipeline, runner, pod and namespace consistently",
+        "Allows natural internal forms such as zdeployować, zbuildować and zrollbackować where grammatically appropriate",
+        "Does not replace Kubernetes API resource names with invented Polish identifiers",
+        "Does not translate literal command names",
+        "Does not over-formalize internal engineering prose",
+        "Uses Polish inflection naturally for English technical nouns where appropriate",
+        "Does not introduce inconsistent variants such as both wdrożenie and deployment for the same concept without contextual reason",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 32,
+      "register": "publiczna",
+      "tags": [
+        "gui",
+        "invented-facts"
+      ],
+      "prompt": "Napisz instrukcję dla klienta na podstawie tego opisu: „Kliknij Settings, wybierz Security, włącz MFA”. Nie znamy dokładnych nazw menu w polskiej wersji portalu ani tego, czy przycisk nazywa się Enable MFA czy Turn on MFA. Nie wymyślaj nazw interfejsu. Instrukcja ma być krótka.",
+      "expected_output": "Short customer-facing instruction using supplied English UI labels or clearly marked placeholders rather than fabricated Polish UI labels.",
+      "files": [],
+      "assertions": [
+        "Does not invent a Polish UI label for Settings",
+        "Does not invent a Polish UI label for Security",
+        "Does not invent the exact MFA button label",
+        "Keeps supplied UI labels recognizable",
+        "Clearly indicates when a label is approximate or placeholder if necessary",
+        "Uses numbered steps",
+        "Uses one consistent reader form",
+        "Does not add unrelated assumptions about the portal",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 33,
+      "register": "inzynierska",
+      "tags": [
+        "runbook",
+        "hypotheses"
+      ],
+      "prompt": "Przygotuj procedurę incident response dla sytuacji, w której API zaczęło zwracać HTTP 503. Dostępne dane: wzrost 503 rozpoczął się o 14:05, chwilę wcześniej wdrożono wersję 2.8.1. Nie wiemy jeszcze, czy deployment jest przyczyną. Procedura ma obejmować: potwierdzenie objawu, sprawdzenie rollout status, logów aplikacji i ingressu, porównanie z poprzednią wersją, decyzję o rollbacku na podstawie danych oraz weryfikację po zmianie.",
+      "expected_output": "Incident runbook structured around evidence gathering rather than assuming the deployment caused the incident.",
+      "files": [],
+      "assertions": [
+        "Preserves the incident start time 14:05",
+        "Preserves application version 2.8.1",
+        "Does not state that deployment is the confirmed root cause",
+        "Starts with confirming the 503 symptom",
+        "Includes checking rollout status",
+        "Includes checking application logs",
+        "Includes checking ingress logs",
+        "Includes comparison with the previous version",
+        "Makes rollback conditional on gathered evidence",
+        "Includes post-change verification",
+        "Separates observed facts from hypotheses",
+        "Does not invent an incident ID, service name, namespace or hostname",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 34,
+      "register": "publiczna",
+      "tags": [
+        "fidelity",
+        "translation"
+      ],
+      "prompt": "Przetłumacz na polski fragment dokumentacji. Zachowaj treść źródła, niczego nie poprawiaj samodzielnie.\n\n### Timeouts\n\nThe default request timeout is 30 seconds. You can change it with the `timeout` option (in milliseconds).\n\nNote: requests time out after 60 seconds by default.\n\nSet `timeout: 0` to disable timeouts entirely.",
+      "expected_output": "Both contradictory values preserved unchanged in the document; the contradiction is reported to the user in the reply, not fixed silently or noted inside the document.",
+      "files": [],
+      "assertions": [
+        "Both values (30 seconds and 60 seconds) appear in the translation unchanged; neither was silently dropped, merged or corrected",
+        "Keeps that the `timeout` option is given in milliseconds and that `timeout: 0` disables timeouts entirely",
+        "The reply (reply.md) tells the user that the source contradicts itself (30 s vs 60 s)",
+        "The document itself contains no comment about the contradiction and no requester notes",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 35,
+      "register": "publiczna",
+      "tags": [
+        "proofreading"
+      ],
+      "prompt": "Popraw językowo ten fragment dokumentacji. Nie zmieniaj treści technicznej i niczego nie skracaj.\n\n## Konfiguracja Kopii Zapasowych\n\nAplikacja posiada wbudowany moduł backupów \u2014 wspiera on zarówno lokalne jak i zdalne cele. W celu włączenia backupów należy ustawić zmienną `BACKUP_ENABLED` na \"true\" przy pomocy pliku `.env`.\n\nUwaga: Twoje hasło do repozytorium nie może być zmienione po pierwszej kopii - w przeciwnym wypadku kopie staną się nieczytelne. Limit wynosi 1,500 plików na kopię, a timeout 2.5 s.\n\nOpcjonalnie możesz zdeployować serwis backupowy na osobnym węźle.",
+      "expected_output": "Corrected Polish with all technical content intact: calques replaced, typography fixed, jargon and „serwis” handled for the public register, possessive dropped.",
+      "files": [],
+      "assertions": [
+        "Calques are replaced („posiada” → „ma”/„zawiera”, „wspiera” → „obsługuje”, „w celu włączenia … należy” → „aby włączyć …”, „przy pomocy” → „za pomocą”)",
+        "All technical content is preserved: `BACKUP_ENABLED`, `.env`, the value `true`, the password-change warning with its consequence, the file limit, the timeout, the optional separate node",
+        "Numbers are localized: 1500 (or 1 500) and 2,5 s",
+        "„Zdeployować serwis backupowy” is rendered with Polish verbs and a non-„serwis” term for the service (e.g. „wdrożyć usługę tworzenia kopii”), consistent with the public register",
+        "„Twoje hasło do repozytorium” no longer carries a redundant possessive",
+        "No new technical claims were added and nothing was removed",
+        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 36,
+      "register": "inzynierska",
+      "tags": [
+        "terminology"
+      ],
+      "prompt": "Napisz dokument koncepcyjny dla zespołu: jak działa wykrywanie usług w naszym klastrze Kubernetes. Obiekt Service, DNS klastra i porównanie z rejestrem usług Consul, z którego korzystają nasze mikroserwisy.",
+      "expected_output": "Concept page with consistent terminology: the Kubernetes object kept as `Service`, one Polish or English term for the general sense throughout, no „serwis” for service, correct DNS name format.",
+      "files": [],
+      "assertions": [
+        "The Kubernetes object is always written `Service` (identifier) and never translated as „usługa”/„serwis” when it means the object",
+        "The general sense of service (an application component) is named with ONE term throughout the document, not alternated among „usługa”, „serwis”, „service” and „mikroserwis”",
+        "„Serwis” in the sense of service does not occur",
+        "Identifiers and product names (`ClusterIP`, `kube-proxy`, CoreDNS, Consul) are untranslated",
+        "The in-cluster DNS name format is stated correctly (`<service>.<namespace>.svc.cluster.local`) with ASCII placeholders",
+        "Follows concept structure: problem, mechanism, consequences; no step-by-step procedures",
+        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 37,
+      "register": "inzynierska",
+      "tags": [
+        "conventions"
+      ],
+      "prompt": "W repozytorium datasync (katalog evals/fixtures/ts-cli) brakuje dokumentacji polecenia `export`. Napisz po polsku stronę dokumentacji tego polecenia, zgodną z konwencjami tego repozytorium. Opcje: `--output-path` (domyślnie `./snapshot`) i `--compress`; adres bazy w zmiennej `DATASYNC_DATABASE_URL`. Podaj nazwę pliku i treść.",
+      "expected_output": "Page that matches the repo: kebab-case filename in docs/, camelCase placeholders, glossary terms (migawka, worker), Polish typography and register of existing docs.",
+      "files": [
+        "evals/fixtures/ts-cli"
+      ],
+      "assertions": [
+        "The file name is kebab-case and placed in docs/ like the existing docs (e.g. `docs/export-command.md`)",
+        "Placeholders in commands are camelCase like the existing docs (e.g. `<databaseUrl>`, `<outputPath>`), not snake_case or kebab-case",
+        "The project glossary is applied: „migawka” for snapshot (never „snapshot”/„zrzut” in prose), `worker` untranslated",
+        "`--output-path` with default `./snapshot`, `--compress` and `DATASYNC_DATABASE_URL` are documented and untranslated",
+        "Matches the register and typography of the existing Polish docs (engineering jargon acceptable, „…” quotes, en dashes)",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 38,
+      "register": "inzynierska",
+      "tags": [
+        "completeness",
+        "runbook"
+      ],
+      "prompt": "Napisz runbook dla dyżurnych: rotacja certyfikatu TLS na serwerze nginx. Certyfikat pochodzi z wewnętrznego CA i wygasa za 7 dni, pliki leżą w /etc/nginx/tls/, serwer stoi za load balancerem (jedna instancja).",
+      "expected_output": "Complete operational runbook: backup, validation of the new cert against the key and chain, nginx -t, reload not restart, verification of the served cert, rollback, load balancer impact.",
+      "files": [],
+      "assertions": [
+        "Backs up the current certificate and key before replacing them",
+        "Validates the new certificate before deploying: matches the private key and chains to the CA (e.g. openssl modulus comparison or `openssl verify`)",
+        "Tests the configuration with `nginx -t` before applying it",
+        "Uses reload rather than restart and states why (no dropped connections)",
+        "Verifies the certificate actually served after the change (e.g. `openssl s_client`, `curl -v`) including the expiry date",
+        "Provides a rollback: restore the backup and reload",
+        "Addresses the load balancer or single-instance impact (health checks, brief failure risk) or states the scope",
+        "Uses one register: inżynierska jargon without slang; commands untouched",
+        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine",
+        "The reply does not mention a skill, its rules, conventions or files"
+      ]
+    },
+    {
+      "id": 39,
+      "register": "publiczna",
+      "tags": [
+        "fidelity",
+        "translation",
+        "reference"
+      ],
+      "prompt": "Przetłumacz tabelę opcji konfiguracyjnych na polski (dokumentacja publiczna):\n\n| Option | Type | Default | Description |\n|---|---|---|---|\n| `maxConnections` | integer | `100` | Maximum number of simultaneous connections. Values above 1,000 require a license. |\n| `idleTimeout` | duration | `30s` | Time before an idle connection is closed. Set to `0` to disable. |\n| `tls.enabled` | boolean | `false` | Enables TLS. Requires `tls.certFile`. |\n| `legacyAuth` | boolean | `true` | Deprecated since 3.2, will be removed in 4.0. Use `auth.mode` instead. |\n| `logLevel` | string | `\"info\"` | One of `debug`, `info`, `warn`, `error`. |",
+      "expected_output": "All five rows kept in a Markdown table; option names and defaults untouched; every condition, deprecation and limit preserved; numbers localized in prose.",
+      "files": [],
+      "assertions": [
+        "All five rows are present in a Markdown table with four columns; headers are translated (Opcja, Typ, Domyślnie, Opis)",
+        "Option names and defaults are untouched in code (`maxConnections`, `100`, `30s`, `false`, `true`, `\"info\"`, the value list)",
+        "Conditions are preserved: values above 1000 require a license; `tls.enabled` requires `tls.certFile`; `0` disables `idleTimeout`",
+        "The deprecation is complete: since 3.2, removal in 4.0, replacement `auth.mode`",
+        "The number in prose is localized (1000 or 1 000), not „1,000”",
+        "Type names are translated or glossed consistently (e.g. liczba całkowita, wartość logiczna, czas trwania)",
+        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine",
+        "The reply does not mention a skill, its rules, conventions or files"
       ]
     }
   ]

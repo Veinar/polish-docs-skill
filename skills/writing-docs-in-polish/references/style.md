@@ -4,11 +4,12 @@
 - Anti-calque catalogue (wrong → right)
 - Sentence-level patterns
 - Phonetic polonizations
+- Preserving negations and limits
 - GUI instructions
 - Phrasebook: recurring documentation phrases
 - Consistency traps
 
-These rules apply to the *publiczna* register; internal docs may use developer jargon (see polish-technical-vocabulary.md). The "wrong" forms below were observed in real published Polish translations of major projects. They are understandable but mark text as translated.
+These rules apply to every register except jargon, which inżynierska and potoczna docs may use (see polish-technical-vocabulary.md). The "wrong" forms below were observed in real published Polish translations of major projects. They are understandable but mark text as translated.
 
 ## Anti-calque catalogue
 
@@ -68,7 +69,23 @@ These rules apply to the *publiczna* register; internal docs may use developer j
 
 ## Phonetic polonizations
 
-Words that respell an English term in Polish spelling ("serwis" for *service*, "wolumin" for *volume*) are neither Polish nor the recognizable English term. Use a genuine Polish word (usługa) or keep the English term and inflect it (Service, volume'u). Words fully established in Polish dictionaries are fine: kontener, klaster, serwer, commit, tag.
+Words that respell an English term in Polish spelling ("serwis" for *service*, "wolumin" for *volume*) are neither Polish nor the recognizable English term. "Serwis" stays correct in its own senses: maintenance („okno serwisowe”, „serwis techniczny”) and websites („serwis internetowy”). Use a genuine Polish word (usługa) or keep the English term and inflect it (Service, volume'u). Words fully established in Polish dictionaries are fine: kontener, klaster, serwer, commit, tag.
+
+## Preserving negations and limits
+
+Losing a negation is the worst translation error: the Polish reads well and says the opposite. Check every one of these words in the source against the translation.
+
+| English | Polish |
+|---|---|
+| does not / cannot | nie / nie można |
+| must not | nie wolno / NIE MOŻE (in a specification) |
+| unless | chyba że / o ile nie |
+| only | tylko / wyłącznie |
+| except | z wyjątkiem |
+| not supported | nie jest obsługiwane |
+| does not affect / does not revert | nie wpływa na / nie cofa |
+
+"This command does not restore database migrations." → „To polecenie nie przywraca migracji bazy danych.” Never soften it to „ogranicza się do…” or drop it to fit a template.
 
 ## GUI instructions
 
@@ -95,7 +112,7 @@ Words that respell an English term in Polish spelling ("serwis" for *service*, "
 Pick one and hold it for the whole document set:
 - polecenie (not komenda) for commands
 - katalog (developer docs) vs folder (end-user GUI docs)
-- usługa vs Service – "usługa" in general prose; "Service" when it is a Kubernetes object kind; never "serwis"
+- usługa vs Service – "usługa" in general prose; "Service" when it is a Kubernetes object kind; not "serwis" for service (fine for maintenance and websites)
 - Pod vs pod – Kubernetes PL mixes both; use lowercase "pod" in prose, `Pod` in code
 - plik konfiguracyjny vs konfig – never "konfig" in docs
 - logi vs dzienniki – "logi" is accepted in developer docs; "dziennik systemowy" for journald/syslog

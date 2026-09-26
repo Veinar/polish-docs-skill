@@ -1,4 +1,4 @@
-<!-- Rejestr: wewnętrzna. Zasada „bez szukania winnych”: opisuj systemy i decyzje, nie osoby. Czas w formacie 24-godzinnym ze strefą (UTC lub CET/CEST). -->
+<!-- Rejestr: inżynierska. Zasada „bez szukania winnych”: opisuj systemy i decyzje, nie osoby. Czas w formacie 24-godzinnym ze strefą (UTC lub CET/CEST). Szablon wyznacza strukturę, a nie limit treści: dodaj sekcję, gdy temat tego wymaga, i nie pomijaj istotnych informacji technicznych. -->
 # Postmortem: <krótki opis incydentu>
 
 - Data incydentu: <RRRR-MM-DD>
@@ -22,7 +22,7 @@
 | Czas (<strefa>) | Zdarzenie |
 |---|---|
 | <HH:MM> | <Deployment wersji X na produkcję.> |
-| <HH:MM> | <Alert `<NazwaAlertu>`.> |
+| <HH:MM> | <Alert `<nazwa_alertu>`.> |
 | <HH:MM> | <Rollback, usługa wraca do normy.> |
 
 ## Przyczyna źródłowa

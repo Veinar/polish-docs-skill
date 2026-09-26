@@ -8,13 +8,13 @@
       "expected_output": "Polish README following the README template; sentence-case headings; code untranslated in backticks; „…” quotes; reader addressed as 'ty'; no calques (posiada, wspiera).",
       "files": [],
       "assertions": [
-        "Headings are in Polish sentence case (no Title Case such as „Szybki Start”)",
         "Code, commands and identifiers (`pip install kolejka-zadan`, Python code, `kolejka-zadan`) are left untranslated and formatted as code",
         "Prose uses Polish „…” quotation marks, never English \"…\" quotes (outside code)",
         "Reader is addressed consistently as „ty” (e.g. zainstaluj, możesz), not „Państwo”/„wy” or impersonal mixing",
         "No calques: none of „posiada”, „wspiera”, „dedykowany”, „w oparciu o”",
         "States the requirements: installation via pip and Python 3.11 or newer"
-      ]
+      ],
+      "register": "publiczna"
     },
     {
       "id": 2,
@@ -24,10 +24,10 @@
       "assertions": [
         "Section headings are translated to Polish past-tense forms „Dodano” and „Usunięto”",
         "Version heading uses an en dash (–) between version and date, not a hyphen",
-        "Feature name is quoted with Polish „…” quotes",
         "Number is written as 1500 (no comma and no thousands separator)",
         "`--legacy` is kept verbatim in backticks"
-      ]
+      ],
+      "register": "publiczna"
     },
     {
       "id": 3,
@@ -38,10 +38,10 @@
         "Contains the sections Kontekst, Rozważane warianty (or clearly equivalent options section), Decyzja and Konsekwencje",
         "Konsekwencje lists both positive and negative consequences",
         "Explicitly addresses latency (opóźnienia) and backward compatibility (kompatybilność wsteczna)",
-        "Headings are in Polish sentence case",
         "Terminology is consistent (the same concept is not alternately called by different Polish/English names)",
         "Syntax reads as natural Polish, with no calques („posiada”, „wspiera”, „w oparciu o”, „dedykowany”, „adresować”)"
-      ]
+      ],
+      "register": "inzynierska"
     },
     {
       "id": 4,
@@ -55,7 +55,8 @@
         "Placeholders are written in <angle_brackets> (e.g. <id>, <katalog>)",
         "Option names (--snapshot, --target, --dry-run, --force) are left untranslated",
         "All three exit codes (0, 2, 3) and the BACKUPCTL_CONFIG variable are documented"
-      ]
+      ],
+      "register": "publiczna"
     },
     {
       "id": 5,
@@ -68,7 +69,8 @@
         "Requirement keywords are uppercase and grammatically inflected Polish (e.g. MUSI, POWINIEN, NIE MOŻE)",
         "Time is written with unit spacing as „10 s” (not „10s”)",
         "Header name X-Signature and algorithm HMAC-SHA256 are left untranslated; 5 retries with exponential backoff are specified"
-      ]
+      ],
+      "register": "publiczna"
     }
   ]
 }

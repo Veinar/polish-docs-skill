@@ -9,3 +9,6 @@ Thumbs.db
 .idea/
 .vscode/
 __pycache__/
+
+# Custom
+TODO.md

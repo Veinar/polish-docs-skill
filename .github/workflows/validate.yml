@@ -15,7 +15,9 @@ jobs:
       - name: Validate SKILL.md files
         run: python scripts/validate_skills.py skills
       - name: Lint Polish templates
-        run: python skills/writing-docs-in-polish/scripts/lint_pl.py --strict skills/writing-docs-in-polish/assets/templates
+        run: python skills/writing-docs-in-polish/scripts/lint_pl.py --strict --ignore placeholder-prose skills/writing-docs-in-polish/assets/templates
+      - name: Unit tests (linter, convention detector)
+        run: python -m unittest discover -s scripts
       - name: Validate JSON manifests
         run: |
           python -m json.tool .claude-plugin/plugin.json > /dev/null

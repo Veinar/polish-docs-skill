@@ -63,14 +63,14 @@ End pages with "Zobacz też" (reference) or "Co dalej" (tutorial, task). Order: 
 
 **README** (`readme.md`). One or two sentences on what and for whom, then the shortest path to a working result.
 
-**ADR** (`adr.md`, wewnętrzna). Title states the decision as a sentence. List positive, negative and neutral consequences.
+**ADR** (`adr.md`, inżynierska). Title states the decision as a sentence. List positive, negative and neutral consequences.
 
-**Changelog** (`changelog.md`, publiczna). Keep a Changelog with Polish section names. Start entries consistently with a past impersonal verb ("Dodano…") or a noun; mark breaking changes with **Zmiana niekompatybilna wstecz:**.
+**Changelog** (`changelog.md`, publiczna). Keep a Changelog with Polish section names. Version headings use the en dash: `## [1.2.0] – 2026-09-26`. Start entries consistently with a past impersonal verb ("Dodano…") or a noun; mark breaking changes with **Zmiana niekompatybilna wstecz:**.
 
-**Runbook** (`runbook.md`, wewnętrzna). Written for someone paged at 3 a.m.: short sentences, copy-pasteable commands, branching diagnosis ("Jeśli…, przejdź do kroku N"), explicit escalation criteria with a time limit. Say what the fix does not undo (e.g. `kubectl rollout undo` does not revert ConfigMap/Secret changes or database migrations). Team jargon is expected.
+**Runbook** (`runbook.md`, inżynierska). Written for someone paged at 3 a.m.: short sentences, copy-pasteable commands, branching diagnosis ("Jeśli…, przejdź do kroku N"), explicit escalation criteria with a time limit. Say what the fix does not undo (e.g. `kubectl rollout undo` does not revert ConfigMap/Secret changes or database migrations). Team jargon is expected.
 
-**Postmortem** (`postmortem.md`, wewnętrzna). Blameless: describe systems and decisions, not people. Timeline in 24-hour time with an explicit time zone. Every corrective action has an owner, a deadline and a ticket.
+**Postmortem** (`postmortem.md`, inżynierska). Blameless: describe systems and decisions, not people. Timeline in 24-hour time with an explicit time zone. Every corrective action has an owner, a deadline and a ticket.
 
-**Pull request** (`pull-request.md`, wewnętrzna). Why before what; how to test; risk and how to roll back.
+**Pull request** (`pull-request.md`, potoczna). Why before what; how to test; risk and how to roll back.
 
-**Commit message** (`commit-message.md`, wewnętrzna). Conventional Commits: type and scope stay English (tools parse them), the description is Polish, imperative, lowercase, no final full stop, subject line up to 72 characters. The body explains why. Tool-parsed footers (`BREAKING CHANGE:`, `Refs:`) stay English.
+**Commit message** (`commit-message.md`, potoczna). Conventional Commits: type and scope stay English (tools parse them), the description is Polish, imperative, lowercase, no final full stop, subject line up to 72 characters. The body explains why. Tool-parsed footers (`BREAKING CHANGE:`, `Refs:`) stay English.

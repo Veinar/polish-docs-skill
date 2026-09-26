@@ -1,4 +1,4 @@
-<!-- Rejestr: publiczna dla projektów open source, wewnętrzna dla projektów zespołowych. -->
+<!-- Rejestr: publiczna dla projektów open source, inżynierska dla projektów zespołowych. Szablon wyznacza strukturę, a nie limit treści: dodaj sekcję, gdy temat tego wymaga, i nie pomijaj istotnych informacji technicznych. -->
 # <Nazwa projektu>
 
 <1–2 zdania: co robi projekt i dla kogo jest.>
@@ -15,7 +15,7 @@
 ## Instalacja
 
 ```bash
-<polecenie instalacji>
+<polecenie_instalacji>
 ```
 
 ## Szybki start

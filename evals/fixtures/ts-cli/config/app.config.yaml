@@ -1,0 +1,5 @@
+databaseUrl: postgres://localhost:5432/app
+batchSize: 500
+retryPolicy:
+  maxAttempts: 3
+  backoffMs: 200

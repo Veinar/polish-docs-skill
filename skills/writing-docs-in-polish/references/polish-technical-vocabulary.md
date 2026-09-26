@@ -1,6 +1,6 @@
 # Polish developer jargon: verbs, nouns and inflection
 
-Polish engineers use Polish-inflected English terms ("zdeployuj na staging", "ten build się wywalił"). Replacing them with formal equivalents in internal docs sounds stiff and unnatural; using them in public product docs sounds careless. The register decides.
+Polish engineers use Polish-inflected English terms ("zdeployuj na staging", "zrollbackuj deployment"). Replacing them with formal equivalents in internal docs sounds stiff; using them in public product docs sounds careless. Natural Polish is not formal Polish: the register decides.
 
 ## Contents
 - Registers: when jargon is right
@@ -11,13 +11,13 @@ Polish engineers use Polish-inflected English terms ("zdeployuj na staging", "te
 
 ## Registers: when jargon is right
 
-| Register | Where | English nouns | Jargon verbs |
-|---|---|---|---|
-| **Publiczna** | Product docs, man pages, specifications, tutorials for external users, anything published like Kubernetes/PostgreSQL docs | Established ones, inflected (commit, pod, pipeline) | No – use Polish verbs: wdrożyć, zbudować, scalić, uruchomić ponownie |
-| **Wewnętrzna** | Internal READMEs, runbooks, postmortems, onboarding, ADRs, PR descriptions, commit messages in Polish | Freely | Yes, "common" tier below |
-| **Rozmowa** | Chat, code review comments, informal notes | Freely | Yes, any correct form |
+| Register | Where | English nouns | Jargon verbs | Slang |
+|---|---|---|---|---|
+| **publiczna** | Product docs, man pages, specifications, tutorials for external users | Established ones, inflected (commit, pod, pipeline) | No: use Polish verbs (wdrożyć, zbudować, scalić, uruchomić ponownie) | No |
+| **inżynierska** | Runbooks, ADRs, postmortems, onboarding, internal READMEs and how-tos | Freely | Yes (zdeployuj, zmerguj, zrollbackuj) | No |
+| **potoczna** | PR descriptions, commit bodies, review comments, chat-like notes | Freely | Yes | Yes (marked *potoczna* in the tables below) |
 
-Default when unclear: repository docs of an internal project → *wewnętrzna*; anything for customers or the open-source public → *publiczna*. Follow what the project's existing docs already do.
+Default when unclear: internal project docs → *inżynierska*; anything for customers or the open-source public → *publiczna*; PR and commit text → *potoczna*. Follow what the project's existing docs already do.
 
 Within one document, stay in one register: don't mix "zdeployuj" and "wdróż" for the same action.
 
@@ -67,7 +67,7 @@ Also kept as-is: workflow, payload, header, token, config, manifest, registry, r
 
 ## Verbs by domain
 
-Columns: **publiczna** form | **wewnętrzna** jargon ("common" tier – natural in writing). Rarer spoken forms are in the notes.
+Columns: **publiczna** form | **inżynierska** jargon (natural in writing). Slang forms are marked *(potoczna)* and belong only in the potoczna register.
 
 ### Git and code
 
@@ -100,10 +100,10 @@ Columns: **publiczna** form | **wewnętrzna** jargon ("common" tier – natural 
 | test | przetestować | przetestować |
 | deploy | wdrożyć | zdeployować |
 | rollback | wycofać | zrollbackować, zrobić rollback |
-| trigger (pipeline) | uruchomić | odpalić, striggerować |
-| run / rerun | uruchomić / uruchomić ponownie | odpalić / puścić ponownie |
+| trigger (pipeline) | uruchomić | striggerować, odpalić *(potoczna)* |
+| run / rerun | uruchomić / uruchomić ponownie | uruchomić / uruchomić ponownie, puścić ponownie *(potoczna)* |
 | retry | ponowić | ponowić, zretryować |
-| fail | zakończyć się błędem | wywalić się, sfailować |
+| fail | zakończyć się błędem | sfailować, wywalić się *(potoczna)* |
 | promote | przenieść na (środowisko) | wypromować |
 | approve | zatwierdzić | zaakceptować, zaapprove'ować |
 | cache | buforować | wrzucić do cache'u |
@@ -120,7 +120,9 @@ Columns: **publiczna** form | **wewnętrzna** jargon ("common" tier – natural 
 | drain / cordon | opróżnić / wyłączyć z harmonogramowania | zdrainować / zrobić cordon |
 | taint / label / annotate | dodać taint / etykietę / adnotację | dodać tainta / zalabelować / zaannotować |
 | evict | usunąć (pod) z węzła | zrobić evict poda |
-| roll out | wdrożyć stopniowo | zrobić rollout |
+| roll out (a change) | wdrożyć | zrobić rollout |
+| rolling update | aktualizacja krocząca | rolling update |
+| staged / phased rollout | wdrożenie etapowe | wdrożenie etapowe |
 | provision | przygotować, utworzyć | sprovisionować |
 | upgrade / downgrade | zaktualizować / przywrócić starszą wersję | zupgrade'ować / zdowngrade'ować |
 | backup / restore | wykonać kopię zapasową / przywrócić | zrobić backup / przywrócić |
@@ -131,7 +133,7 @@ Columns: **publiczna** form | **wewnętrzna** jargon ("common" tier – natural 
 
 | English | Publiczna | Wewnętrzna |
 |---|---|---|
-| route / forward / proxy | kierować / przekierować / pośredniczyć | zroutować / przeforwardować / puścić przez proxy |
+| route / forward / proxy | kierować / przekierować / pośredniczyć | zroutować / przeforwardować / puścić przez proxy *(potoczna)* |
 | resolve (DNS) | rozwiązać nazwę | rozwiązać |
 | allowlist / blocklist | dodać do listy dozwolonych / zablokowanych | dodać do allowlisty / zablokować |
 | throttle / rate-limit | ograniczyć przepustowość / liczbę żądań | throttlować / zrate-limitować |
@@ -156,7 +158,7 @@ Columns: **publiczna** form | **wewnętrzna** jargon ("common" tier – natural 
 | reproduce | odtworzyć | zreprodukować |
 | isolate / narrow down | wyizolować / zawęzić | odizolować / zawęzić |
 | rule out | wykluczyć | wykluczyć |
-| inspect (logs) | przejrzeć | przejrzeć, przekopać logi |
+| inspect (logs) | przejrzeć | przejrzeć, przekopać logi *(potoczna)* |
 | troubleshoot | diagnozować | zdebugować |
 | root-cause analysis | analiza przyczyny źródłowej | analiza root cause, RCA |
 
@@ -174,4 +176,4 @@ These appear in informal lists but are wrong or misleading in any register:
 | zexecute'ować, zdescribe'ować, zreconcilować | unreadable in writing | wykonać, opisać, uzgodnić stan |
 | aplikować zmiany (outside `kubectl apply`) | calque | wprowadzić zmiany |
 | wyewikować, scordonować, scache'ować | coined, nobody says them | zrobić evict, zrobić cordon, wrzucić do cache'u |
-| serwis (service), wolumin (volume), wolumen | phonetic polonization: neither English nor Polish | usługa or `Service` / volume |
+| serwis in the sense of *service*, wolumin, wolumen | phonetic polonization: neither English nor Polish | usługa or `Service`; volume. Fine in other senses: „okno serwisowe”, „serwis techniczny”, „serwis internetowy” |

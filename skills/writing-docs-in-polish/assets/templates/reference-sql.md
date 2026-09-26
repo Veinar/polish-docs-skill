@@ -1,7 +1,7 @@
-<!-- Rejestr: publiczna. Układ stron poleceń SQL z dokumentacji PostgreSQL. Słowa kluczowe SQL zostają wielkimi literami po angielsku. -->
-# <POLECENIE SQL>
+<!-- Rejestr: publiczna. Układ stron poleceń SQL z dokumentacji PostgreSQL. Słowa kluczowe SQL zostają wielkimi literami po angielsku. Szablon wyznacza strukturę, a nie limit treści: dodaj sekcję, gdy temat tego wymaga, i nie pomijaj istotnych informacji technicznych. -->
+# <POLECENIE_SQL>
 
-`<POLECENIE SQL>` – <półzdaniowy opis>
+`<POLECENIE_SQL>` – <półzdaniowy opis>
 
 ## Składnia
 

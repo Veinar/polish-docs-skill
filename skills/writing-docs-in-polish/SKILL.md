@@ -4,92 +4,124 @@ description: Writes, edits, reviews and translates technical documentation in Po
 license: MIT
 metadata:
   author: Veinar
-  version: "0.6.0"
+  version: "0.7.0"
 ---
 
 # Writing documentation in Polish
 
-The goal is documentation that a Polish engineer reads as native technical prose – precise like PostgreSQL's reference, readable like Pro Git, task-focused like ArchWiki – never as a machine translation. The Kubernetes Polish localization guide puts it well: the text must not give the impression of being machine-translated.
+The goal is documentation that is technically correct and usable, and that a Polish engineer reads as native prose rather than translation. Language rules serve the content, never the reverse.
 
-Most failures in real Polish docs are of three kinds: calques from English syntax, English typography (Title Case, "quotes", decimal points), and inconsistent terminology (Pod/pod, polecenie/komenda). Everything below targets those.
+## Priorities
+
+When rules conflict, the higher one wins:
+
+1. **Technical correctness and completeness**
+2. **Safety and reversibility**
+3. **Executability**: the reader can follow it step by step
+4. **Source fidelity**: translation and proofreading keep every fact, warning, limit and negation
+5. **Project conventions**: the user's and the repository's terms, naming and style beat this skill's defaults
+6. **Natural Polish**
+7. **Terminology consistency**
+8. **Typography**
+
+A language rule never justifies dropping technically relevant information. Templates give structure, not a content limit: add a section when the subject needs it. Natural Polish is not formal Polish: write the way a Polish engineer writes for that audience. Never mention this skill, its rules or its files in the document or in your reply.
 
 ## Workflow
 
-Copy this checklist and track progress:
-
 ```
 Postęp:
-- [ ] 1. Rozpoznaj typ treści
-- [ ] 2. Sprawdź konwencje projektu i ustal rejestr
-- [ ] 3. Napisz według szablonu typu treści
-- [ ] 4. Zweryfikuj język, terminologię i typografię
-- [ ] 5. Uruchom lint_pl.py i przejdź listę kontrolną
+- [ ] 1. Typ treści i rejestr
+- [ ] 2. Konwencje projektu (detect_conventions.py)
+- [ ] 3. Zakres techniczny
+- [ ] 4. Szkic według szablonu
+- [ ] 5. Przegląd kompletności technicznej
+- [ ] 6. lint_pl.py --fix i poprawki
+- [ ] 7. Lista kontrolna
 ```
 
-**1. Identify the content type.** Each type has a different purpose and skeleton – mixing them (a tutorial that turns into a reference dump) is the most common structural flaw. Pick one:
+**1. Content type and register.** Mixing types (a tutorial that turns into a reference dump) is the most common structural flaw.
 
-| Type | Reader's question | Register | Template |
-|---|---|---|---|
-| Tutorial (samouczek) | "Naucz mnie" | publiczna | [tutorial.md](assets/templates/tutorial.md) |
-| How-to (instrukcja) | "Jak zrobić X?" | either | [how-to.md](assets/templates/how-to.md) |
-| Concept (koncepcja) | "Jak to działa i dlaczego?" | publiczna | [concept.md](assets/templates/concept.md) |
-| CLI reference / man page | "Jakie są opcje?" | publiczna | [reference-cli.md](assets/templates/reference-cli.md) |
-| SQL reference | "Jaka jest składnia?" | publiczna | [reference-sql.md](assets/templates/reference-sql.md) |
-| API reference | "Co przyjmuje i zwraca?" | publiczna | [reference-api.md](assets/templates/reference-api.md) |
-| Specification | "Co jest wymagane?" | publiczna | [specification.md](assets/templates/specification.md) |
-| README | "Co to jest i jak zacząć?" | either | [readme.md](assets/templates/readme.md) |
-| ADR | "Co i dlaczego zdecydowaliśmy?" | wewnętrzna | [adr.md](assets/templates/adr.md) |
-| Changelog | "Co się zmieniło?" | publiczna | [changelog.md](assets/templates/changelog.md) |
-| Runbook | "Co robić, gdy alert?" | wewnętrzna | [runbook.md](assets/templates/runbook.md) |
-| Postmortem | "Co się stało i czego się nauczyliśmy?" | wewnętrzna | [postmortem.md](assets/templates/postmortem.md) |
-| Pull request | "Co zmienia ten PR?" | wewnętrzna | [pull-request.md](assets/templates/pull-request.md) |
-| Commit message | "Dlaczego ta zmiana?" | wewnętrzna | [commit-message.md](assets/templates/commit-message.md) |
+| Type | Register | Template |
+|---|---|---|
+| Tutorial (samouczek) | publiczna | [tutorial.md](assets/templates/tutorial.md) |
+| How-to (instrukcja) | publiczna or inżynierska | [how-to.md](assets/templates/how-to.md) |
+| Concept (koncepcja) | publiczna | [concept.md](assets/templates/concept.md) |
+| CLI reference / man page | publiczna | [reference-cli.md](assets/templates/reference-cli.md) |
+| SQL reference | publiczna | [reference-sql.md](assets/templates/reference-sql.md) |
+| API reference | publiczna | [reference-api.md](assets/templates/reference-api.md) |
+| Specification | publiczna | [specification.md](assets/templates/specification.md) |
+| README | publiczna (open source) or inżynierska (team) | [readme.md](assets/templates/readme.md) |
+| Changelog | publiczna | [changelog.md](assets/templates/changelog.md) |
+| ADR | inżynierska | [adr.md](assets/templates/adr.md) |
+| Runbook | inżynierska | [runbook.md](assets/templates/runbook.md) |
+| Postmortem | inżynierska | [postmortem.md](assets/templates/postmortem.md) |
+| Pull request | potoczna | [pull-request.md](assets/templates/pull-request.md) |
+| Commit message | potoczna | [commit-message.md](assets/templates/commit-message.md) |
 
-Copy the template, fill it in, and delete the `<!-- … -->` guidance comments and any section that would stay empty. The rules that make each type work are in [references/content-types.md](references/content-types.md).
+Registers:
+- **publiczna**: product docs, specifications, anything for external readers. Polish verbs (wdrożyć, zbudować, scalić), established English nouns inflected (commit, pod, pipeline).
+- **inżynierska**: internal engineering docs. The jargon engineers write: "zdeployuj na staging", "zrollbackuj deployment". No slang.
+- **potoczna**: PR descriptions, commit bodies, chat-like notes. As inżynierska, plus slang ("wywaliło się", "odpal").
 
-**2. Existing conventions win; choose the register.** If the project already has Polish docs or a glossary, match their register, terms and heading style. Consistency inside one project beats these defaults. Leave code comments and identifiers in the codebase's language unless asked otherwise.
+Forcing formal Polish into internal docs sounds stiff; jargon in public docs sounds careless. Keep one register per document.
 
-**3. Write** using the template and the core rules below. For specifications, use [references/requirements-language.md](references/requirements-language.md).
+**2. Project conventions.** When there is a repository or the user points to one, run `python scripts/detect_conventions.py <katalog_repo>` (short output) and match what it reports: language and register of existing docs, filename style, and the naming case of identifiers and placeholders (snake_case, camelCase, kebab-case, PascalCase). Never force one case over the project's own. The project's glossary and the terms the user used win over this skill's terminology; do not rename them. With no signal, use the defaults below.
 
-**4. Verify language, terms and typography.** First list the document's key concepts and check each is named one way throughout (not "mikroserwisy" in one paragraph and "usługi" in the next; not "request" and "żądanie"). Then check against [references/style.md](references/style.md) (anti-calque catalogue and phrasebook), [references/terminology.md](references/terminology.md) and [references/typography.md](references/typography.md).
+**3. Technical scope.** Before writing, list for yourself what the reader needs: components, prerequisites, dependencies, side effects, limits, failure modes, how to verify, how to undo. For translation and proofreading, list every warning, caveat, negation, value and example in the source.
 
-**5. Lint, then review.** Save the document as Markdown and run:
+**4. Draft.** Copy the template, fill it, delete the `<!-- … -->` comments and sections that would stay empty. Type-specific rules: [references/content-types.md](references/content-types.md).
 
-```bash
-python scripts/lint_pl.py --register <publiczna|wewnetrzna> <plik.md>
-```
+**5. Completeness review.** Check the draft against the scope from step 3 and add what is missing, even beyond the template:
+- every prerequisite and dependency named
+- every destructive or hard-to-reverse step preceded by a warning and by a way to check the current state
+- what the change does not undo or cover (a rollback that leaves database migrations)
+- verification, and rollback or recovery
+- failure modes readers are likely to hit
+- nothing from the source dropped, softened or reversed (does not, unless, only, must not)
+- statements about tools you are unsure of: verify, hedge or omit; never present a guess as fact
 
-(the path is relative to this skill's directory). It reports em dashes, hyphens used as dashes, straight or English quotes, Title Case headings, decimal points, English thousands separators, calques and – in the public register – jargon verbs. Fix every error; for each warning either fix it or confirm it is a false positive (e.g. a version number). Then go through the checklist below. Repeat until both pass.
+**6. Lint.** Run `python scripts/lint_pl.py --fix --register <publiczna|inzynierska|potoczna> <plik.md>`. It fixes mechanical typography itself (dashes, quotes) and lists the rest. Fix each remaining warning or confirm it as a false positive (version numbers, „okno serwisowe”). Run it at most twice.
+
+**7. Checklist.**
+- [ ] One type and register; structure follows the template plus what the subject needs
+- [ ] Steps numbered, one thing each; warnings precede the risky step; expected results stated
+- [ ] Nothing dropped from the source; no guesses presented as facts
+- [ ] One term per concept; project terms kept
+- [ ] Code, commands, output and identifiers untranslated and in backticks
+- [ ] No notes for the requester inside the document; lint clean
+
+Load references only when needed:
+
+| Need | Read |
+|---|---|
+| Rules and sections for a content type, admonitions, version notes | [content-types.md](references/content-types.md) |
+| Jargon verbs and inflection, per register | [polish-technical-vocabulary.md](references/polish-technical-vocabulary.md) (only your domain's section) |
+| EN → PL term choice, the service/usługa decision tree | [terminology.md](references/terminology.md) (search for the term) |
+| Translating or proofreading; lint reports calques; GUI steps | [style.md](references/style.md) |
+| MUST / SHOULD / MAY in a specification | [requirements-language.md](references/requirements-language.md) |
+| Lint reports typography you do not understand | [typography.md](references/typography.md) |
 
 ## Core rules
 
-**Pick the register first: publiczna or wewnętrzna.** Public product docs (the Kubernetes/PostgreSQL level) use Polish verbs – wdrożyć, zbudować, scalić – with established English nouns inflected (commit, pod, pipeline). Internal engineering docs (runbooks, postmortems, internal READMEs, PR descriptions) use the jargon Polish engineers actually write: "zdeployuj na staging", "build się wywalił", "zrollbackuj deployment". Forcing formal Polish into internal docs sounds stiff; jargon in public docs sounds careless. Details, spelling rules (z-/s-/ze- prefixes, apostrophes) and inflection tables: [references/polish-technical-vocabulary.md](references/polish-technical-vocabulary.md).
+**Reader.** Address as "ty", imperative for steps ("Uruchom"), 3rd person for descriptions ("Polecenie zwraca…"). Drop "twój/twoja/twoje" where ownership is obvious ("Otwórz plik konfiguracyjny"); reflexive „swój” is fine only where it removes ambiguity. Avoid past-tense forms that force a gender ("uruchomiłeś", "chciałbyś"): rephrase ("w terminalu, w którym działa `minikube start`").
 
-**Address the reader as "ty".** Kubernetes, Pro Git, ArchWiki and the Python docs all do. Drop "twój/twoja/twoje" wherever context makes ownership obvious ("Otwórz plik konfiguracyjny", not "Otwórz twój plik konfiguracyjny"). Imperative for steps ("Uruchom", "Sprawdź"), 3rd person for descriptions ("Polecenie zwraca…"). Pronouns lowercase ("twój", "ci"). Avoid "Państwo" and heavy "należy…" chains; one "należy" in a warning is fine.
+**Polish syntax, not English.** "ma" not "posiada", "obsługuje" not "wspiera", "za pomocą" for tools, "aby uruchomić…" not "w celu uruchomienia…". Full catalogue in style.md.
 
-**Gender-neutral by construction.** Avoid past-tense 2nd person forms that force a gender ("uruchomiłeś", "chciałbyś"). Rephrase instead of writing "(-aś)":
-- "w terminalu, w którym uruchomiłeś `minikube start`" → "w terminalu, w którym działa `minikube start`"
-- "Jeśli chciałbyś zautomatyzować…" → "Jeśli chcesz zautomatyzować…"
+**Headings** in sentence case without a final full stop; steps and tasks use imperatives, concepts and references use nouns.
 
-**Write Polish syntax, not English.** Drop redundant possessives ("your"), prefer active verbs, use "za pomocą" for tools, "ma" not "posiada", "obsługuje" not "wspiera". See the full catalogue in style.md.
+**Code stays code.** Never translate identifiers, commands, flags, paths, config keys, API object kinds or program output. Use backticks and inflect the words around them ("w pliku `config.yaml`"). Never invent a Polish form for an identifier. Quote English output or UI text and gloss it once: „Running” (działa).
 
-**Headings in sentence case, no final full stop.** "Instalacja i usuwanie", never "Instalacja i Usuwanie". Step headings in tasks and tutorials are imperatives ("Zweryfikuj podpis"); concept and reference headings are nouns ("Komponenty klastra", "Parametry"). Keep one form per document.
+**Placeholders and naming.** Match the project's case (`<databaseUrl>` in a camelCase project, `<nazwa_bazy>` in snake_case). With no signal, use ASCII snake_case. In code, placeholders are ASCII with no spaces so commands stay copy-pasteable. In prose, UI-label placeholders are written `**<nazwa przycisku>**`. Use one style per document and explain each placeholder once.
 
-**Code stays code.** Never translate identifiers, commands, flags, paths, config keys, API object kinds used as identifiers, or program output. Put them in backticks and inflect the surrounding words: "w pliku `config.yaml`", "zmienna `PATH`". When prose refers to English output or UI text, quote it and gloss once: „Untracked files” (nieśledzone pliki), „Running” (działa).
+**Terminology.** One term per concept for the whole document. Prefer established Polish terms; keep English where it is the industry norm and inflect it ("commita", "poda"). Avoid "serwis" in the sense of *service* (use "usługa" or the English `Service`); "serwisowy" in the sense of maintenance ("okno serwisowe") is fine. Give the original on first use of an ambiguous term: "warstwa sterowania (ang. *control plane*)".
 
-**Placeholders** in commands: `<nazwa_bazy>` in angle brackets, snake_case, ASCII-only so they stay copy-pasteable. Explain them once in a "Konwencje" section or right below the command.
+**Facts and requester notes.** When the request lacks details (names, versions, limits, UI labels), use placeholders so the reader can tell given facts from guesses. Report assumptions **in your reply**, not in the file: no "Założenia" or "Uwagi do tłumaczenia" sections written for the requester (an ADR or specification may have its own „Założenia i niewiadome”: that is content for the reader). The document may state reader-facing scope ("Instrukcja dotyczy serwerów z UEFI i Ubuntu 24.04."). If the user asks for a draft with open questions, use `<!-- DO UZUPEŁNIENIA: … -->`.
 
-**Terminology.** One term per concept for the whole document. Prefer established Polish terms; keep English where it is the industry norm and inflect it ("commita", "poda", "Kubernetesa"). Avoid phonetic polonizations such as "serwis" or "wolumin": use a real Polish word (usługa) or the English term. On first use of an ambiguous term, give the original: "warstwa sterowania (ang. *control plane*)".
+**Translation and proofreading.** The source is authoritative. Preserve meaning, prerequisites, warnings, limits, examples, command and API semantics, version constraints, order dependencies, negations and caveats; never shorten a technical source to make the Polish tidier. Translate all prose, localize numbers, gloss English-only UI labels once (**Settings** (Ustawienia)), record the source version, mark English-only links "(w języku angielskim)". Proofreading changes language, not content.
 
-**Dashes: en dash only.** Use the spaced en dash " – " (U+2013) as the sentence dash and the unspaced en dash for ranges (10–20). Never output an em dash (U+2014), even when the source text or an English original uses one.
+**Dashes: en dash only.** Spaced " – " as the sentence dash, unspaced for ranges (10–20). Never an em dash (U+2014), even when the source uses one. Changelog version headings follow the same rule: `## [1.2.0] – 2026-09-26`.
 
-**Numbers and typography**: „cudzysłów”, decimal comma (0,5 s), space as thousands separator (10 000), value and unit separated (512 MiB), dates "26 września 2026 r." or ISO `2026-09-26`.
-
-**Don't invent facts silently, and keep notes for the requester out of the document.** When the request lacks details (names, versions, limits, UI labels), use placeholders in the document (`<adres_proxy>`) so the reader can tell given facts from guesses. Report what you assumed or could not know **in your reply to the user**, not in the file: no "Założenia", "Zlecenie nie określało…" or "Uwagi do tłumaczenia" sections in a finished document. The document may state reader-facing scope ("Instrukcja dotyczy serwerów z UEFI i Ubuntu 24.04."). Only when the user asks for a draft with open questions, mark them as `<!-- DO UZUPEŁNIENIA: … -->` comments.
-
-**Instructions must be executable.** Numbered steps, each one thing the reader does in one place: a few clicks in the same dialog can share a step ("Wpisz kod i kliknij **Dalej**"); split when the reader must check a result or move to another screen or tool. Put warnings before the step they concern, not after. After a step that changes state, say what the reader should see. Say what a command does not do when readers could reasonably assume it does (a rollback that does not revert migrations). GUI conventions and verbs: [references/style.md](references/style.md#gui-instructions).
-
-**Translation mode.** The source text is authoritative. Translate everything that is prose. Don't leave English paragraphs behind (a half-translated chapter is worse than none). Record which source version was translated. Mark links that lead to English-only pages: "(w języku angielskim)".
+**Numbers.** Decimal comma (0,5 s), space as thousands separator (10 000), space before units (512 MiB), dates "26 września 2026 r." or ISO. Quotes are „…”.
 
 ## Example
 
@@ -113,9 +145,7 @@ Sprawdzenie podpisu PGP potwierdza, że obraz nie został zmodyfikowany po opubl
 gpg --keyserver-options auto-key-retrieve --verify obraz-<wersja>.iso.sig
 ```
 
-Zastąp `<wersja>` numerem wersji pobranego obrazu.
-
-Jeśli podpis jest prawidłowy, wynik zawiera wiersz podobny do poniższego:
+Zastąp `<wersja>` numerem wersji pobranego obrazu. Jeśli podpis jest prawidłowy, wynik zawiera wiersz podobny do poniższego:
 
 ```
 gpg: Good signature from "Jan Kowalski <jan@example.org>"
@@ -127,20 +157,3 @@ gpg: Good signature from "Jan Kowalski <jan@example.org>"
 
 - Przygotuj nośnik instalacyjny.
 ````
-
-## Review checklist
-
-- [ ] One content type; structure follows its template
-- [ ] Headings in sentence case; step headings are imperatives
-- [ ] One register (publiczna / wewnętrzna) held throughout; jargon spelled per vocabulary rules
-- [ ] Reader addressed as "ty"; no gender-forcing forms; no stray "Państwo"
-- [ ] No calques from style.md's catalogue ("posiada", "wspiera", "w oparciu o", Title Case…)
-- [ ] One term per concept; English terms inflected naturally
-- [ ] Code, commands, output and identifiers untranslated, in backticks; output glossed where needed
-- [ ] No em dash (U+2014) anywhere; dashes are en dashes only
-- [ ] Polish quotes „…”, decimal commas, diacritics everywhere
-- [ ] Every command has context: what it does, expected result, what to do on failure, what it does not undo
-- [ ] Steps numbered, one action each; warnings precede the risky step
-- [ ] No silently invented facts (placeholders), and no notes for the requester inside the document – assumptions go in your reply
-- [ ] No leftover English prose; English-only links marked
-- [ ] Matches conventions already present in the project

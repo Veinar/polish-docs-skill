@@ -3,12 +3,21 @@
 "Keep" = the English term is standard in Polish IT; keep it and inflect by Polish rules. Where sources differ, the first form is the default; follow an existing project glossary if there is one.
 
 ## Contents
+- Decision tree: service and similar ambiguous terms
 - General software and development
 - Version control (Git)
 - Containers and Kubernetes
 - Operating systems and administration
 - Databases
 - Documentation vocabulary
+
+## Decision tree: service and similar ambiguous terms
+
+1. Is it an identifier (Kubernetes `Service`, a systemd unit, an API object, a config key)? Keep it exactly: `Service`, `nginx.service`.
+2. Is it a microservice? "mikroserwis" is established Polish; use it or "usługa", consistently.
+3. Otherwise "usługa" (publiczna) or "usługa" / English "service" inflected ("service'u") in inżynierska and potoczna, one form per document.
+4. "serwis" only in its own senses: maintenance or repair ("okno serwisowe", "serwis techniczny") and websites ("serwis internetowy").
+5. A term the user or the project already uses wins over all of the above.
 
 ## General software and development
 
@@ -79,11 +88,12 @@ From the Kubernetes Polish localization glossary. API object kinds stay English 
 | control plane | warstwa sterowania |
 | Pod | Pod (prose: pod, poda, pody) |
 | Deployment | Deployment (deploymentu) |
-| Service | Service (object kind); usługa (general prose) |
+| Service | `Service` (object kind); usługa (general prose), never „serwis” |
 | namespace | przestrzeń nazw |
 | volume | volume (inflected: volume'u) |
 | workload | obciążenie, workload |
-| rolling update | aktualizacja stopniowa |
+| rolling update | aktualizacja krocząca |
+| staged / phased rollout | wdrożenie etapowe |
 | horizontal scaling | skalowanie horyzontalne / poziome |
 | self-healing | samonaprawianie |
 | desired state | stan oczekiwany |

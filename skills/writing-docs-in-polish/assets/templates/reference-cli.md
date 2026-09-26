@@ -1,12 +1,12 @@
-<!-- Rejestr: publiczna. Układ jak w PostgreSQL i stronach man. Pomiń sekcje, które nie mają zastosowania. Opisy opcji zaczynaj od czasownika w 3. osobie i podawaj wartość domyślną. -->
-# <polecenie podpolecenie>
+<!-- Rejestr: publiczna. Układ jak w PostgreSQL i stronach man. Pomiń sekcje, które nie mają zastosowania. Opisy opcji zaczynaj od czasownika w 3. osobie i podawaj wartość domyślną. Szablon wyznacza strukturę, a nie limit treści: dodaj sekcję, gdy temat tego wymaga, i nie pomijaj istotnych informacji technicznych. -->
+# <polecenie_podpolecenie>
 
-`<polecenie podpolecenie>` – <półzdaniowy opis działania>
+`<polecenie_podpolecenie>` – <półzdaniowy opis działania>
 
 ## Składnia
 
 ```
-<polecenie podpolecenie> [<opcja>...] <argument>
+<polecenie_podpolecenie> [<opcja>...] <argument>
 ```
 
 ## Opis
@@ -56,4 +56,4 @@
 
 ## Zobacz też
 
-[`<inne polecenie>`](<link>), [<rozdział dokumentacji>](<link>)
+[`<inne_polecenie>`](<link>), [<rozdział dokumentacji>](<link>)

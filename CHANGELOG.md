@@ -4,6 +4,29 @@ All notable changes to this project are documented here. Format follows [Keep a 
 
 ## [Unreleased]
 
+## [0.7.0] – 2026-09-26
+
+### Added
+- Priority order in SKILL.md: technical correctness, safety, executability, source fidelity and project conventions outrank language and typography. Language rules never justify dropping technical content.
+- Technical scope and completeness-review steps in the workflow; templates are structure, not a content limit.
+- Source fidelity rules for translation and proofreading (negations, limits, caveats), plus a negation table in `style.md`.
+- `scripts/detect_conventions.py`: detects language, typography, register hints, filename style, identifier case (snake_case, camelCase, kebab-case, PascalCase), config-key case and placeholder case of a repository; output is short and ends with the flags to use. Placeholders and file names now match the project instead of forcing snake_case.
+- `lint_pl.py`: `--fix` auto-corrects em dashes, hyphens used as dashes, straight and English quotes, keeping line endings; `--placeholder-style`, `--ignore`; checks for mixed placeholder styles, spaces in code placeholders, mixed prose placeholder forms, slang; duplicate findings are collapsed and output is capped.
+- Third register `potoczna` (PR descriptions, commit bodies); `wewnętrzna` is renamed `inżynierska`. Slang is allowed only in `potoczna`.
+- Terminology decision tree for *service* (identifier, microservice, register, maintenance sense).
+- Dev tooling: `scripts/lint_metrics.py` (findings per 1000 words per iteration), `scripts/reuse_baselines.py` (reuse baseline runs when the prompt and model are unchanged), unit tests for the linter, `VERSION` and template-register checks in `validate_skills.py`, `evals/README.md`.
+- 26 new evals (ids 14–39): 20 written by the owner on technical fidelity (negations, MUST/MAY, defaults, invented values, hypotheses vs proven causes, destructive steps, GitOps constraints) and 6 more covering contradictory source, proofreading, service terminology, repository conventions (fixture `evals/fixtures/ts-cli`), domain completeness (nginx TLS rotation) and table fidelity. Every eval has a `register` and `tags`.
+
+### Changed
+- `lint_pl.py` requires `--register` or a `Rejestr:` marker (no silent default).
+- SKILL.md loads references on demand (table) instead of asking for all of them; workflow step 6 runs `--fix`, at most twice.
+- „Serwis” is flagged only in the sense of *service*; „okno serwisowe” and „mikroserwis” are fine.
+- „Rolling update” is „aktualizacja krocząca”; „staged/phased” is „wdrożenie etapowe”.
+- Reflexive „swój” is allowed where it removes ambiguity.
+- Template code placeholders are ASCII with no spaces.
+- Removed eval checks that the linter measures objectively (sentence case, em dashes, quotes).
+- „Założenia” headings get a softer warning (`assumptions-section`): they are content in an ADR or specification. The ADR template has an optional „Założenia i niewiadome” section.
+
 ## [0.6.0] – 2026-09-26
 
 ### Changed

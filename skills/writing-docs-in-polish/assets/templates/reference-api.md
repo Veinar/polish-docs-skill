@@ -1,4 +1,4 @@
-<!-- Rejestr: publiczna. Układ jak w MDN. Pierwsze zdanie w 3. osobie: „Zwraca…”, „Tworzy…”. -->
+<!-- Rejestr: publiczna. Układ jak w MDN. Pierwsze zdanie w 3. osobie: „Zwraca…”, „Tworzy…”. Szablon wyznacza strukturę, a nie limit treści: dodaj sekcję, gdy temat tego wymaga, i nie pomijaj istotnych informacji technicznych. -->
 ### `<nazwaFunkcji>(<param1>[, <param2>])`
 
 <Jedno zdanie opisu.>
@@ -21,7 +21,7 @@
 
 **Wyjątki**
 
-- `<TypBledu>` – gdy <warunek>.
+- `<typBledu>` – gdy <warunek>.
 
 **Opis**
 

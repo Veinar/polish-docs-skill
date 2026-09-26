@@ -4,6 +4,7 @@
 Usage: python scripts/validate_skills.py [skills_dir]
 Stdlib only, so it runs in CI without installing anything.
 """
+import json
 import re
 import sys
 from pathlib import Path
@@ -73,6 +74,38 @@ def validate(skill_md):
     return errors
 
 
+def validate_templates(skill_dir):
+    """Every template declares a valid register in its first line."""
+    errors = []
+    pattern = re.compile(r"^<!-- Rejestr: (publiczna|inżynierska|potoczna)\b")
+    for template in sorted((skill_dir / "assets" / "templates").glob("*.md")):
+        first = template.read_text(encoding="utf-8").split("\n", 1)[0]
+        if not pattern.match(first):
+            errors.append(f"{template.name}: first line must start with '<!-- Rejestr: publiczna|inżynierska|potoczna'")
+    return errors
+
+
+def validate_versions(skill_md):
+    """VERSION, plugin.json, SKILL.md metadata and the latest CHANGELOG release must agree."""
+    root = skill_md.parent.parent.parent
+    found = {}
+    version_file = root / "VERSION"
+    if version_file.exists():
+        found["VERSION"] = version_file.read_text(encoding="utf-8").strip()
+    plugin = root / ".claude-plugin" / "plugin.json"
+    if plugin.exists():
+        found["plugin.json"] = json.loads(plugin.read_text(encoding="utf-8")).get("version")
+    match = re.search(r'^\s+version:\s*"?([\w.]+)"?', skill_md.read_text(encoding="utf-8"), re.MULTILINE)
+    found["SKILL.md"] = match.group(1) if match else None
+    changelog = root / "CHANGELOG.md"
+    if changelog.exists():
+        release = re.search(r"^## \[(\d+\.\d+\.\d+)\]", changelog.read_text(encoding="utf-8"), re.MULTILINE)
+        found["CHANGELOG.md"] = release.group(1) if release else None
+    if len(set(found.values())) > 1:
+        return [f"version mismatch: {found}"]
+    return []
+
+
 def main():
     skills_dir = Path(sys.argv[1] if len(sys.argv) > 1 else "skills")
     skill_files = sorted(skills_dir.glob("*/SKILL.md"))
@@ -88,6 +121,7 @@ def main():
             for number, line in enumerate(ref.read_text(encoding="utf-8").splitlines(), 1):
                 if EM_DASH in line:
                     errors.append(f"em dash (U+2014) in {ref.relative_to(skill_md.parent)}:{number}; use en dash (U+2013)")
+        errors += validate_templates(skill_md.parent) + validate_versions(skill_md)
         status = "FAIL" if errors else "OK"
         print(f"[{status}] {skill_md}")
         for error in errors:

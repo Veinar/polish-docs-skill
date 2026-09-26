@@ -1,4 +1,4 @@
-<!-- Rejestr: publiczna. Struktura wzorowana na RFC. Słowa kluczowe wymagań – patrz references/requirements-language.md. Jedno wymaganie w jednym zdaniu. -->
+<!-- Rejestr: publiczna. Struktura wzorowana na RFC. Słowa kluczowe wymagań – patrz references/requirements-language.md. Jedno wymaganie w jednym zdaniu. Szablon wyznacza strukturę, a nie limit treści: dodaj sekcję, gdy temat tego wymaga, i nie pomijaj istotnych informacji technicznych. -->
 # <Tytuł specyfikacji>
 
 - Status: <projekt | obowiązująca | wycofana>

@@ -1,5 +1,7 @@
 # Polish typography for technical docs
 
+You rarely need this file: `lint_pl.py --fix` corrects em dashes, hyphens used as dashes and straight or English quotes automatically. Read it when the linter reports something else or you are unsure of a rule.
+
 ## Contents
 - Quotation marks
 - Dashes and hyphens
