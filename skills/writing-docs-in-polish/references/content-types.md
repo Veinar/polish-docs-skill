@@ -49,7 +49,7 @@ End pages with "Zobacz też" (reference) or "Co dalej" (tutorial, task). Order: 
 
 **Tutorial** (`tutorial.md`, publiczna). Teaches by doing a complete, working example; every step must succeed. Minimal theory, link to concept pages. Steps are numbered headings ("## 1. Utwórz projekt"). Show expected output after each command. End with "Sprzątanie" and "Co dalej".
 
-**How-to** (`how-to.md`). Solves one concrete problem for a reader who knows the basics. Title is a verbal noun naming the goal ("Konfigurowanie TLS…"); steps are numbered ("## 1. Utwórz przestrzeń nazw" for long steps, a numbered list for short ones) and start with an imperative. Always include "Weryfikacja"; add "Rozwiązywanie problemów" in the Objaw → Przyczyna → Rozwiązanie form.
+**How-to** (`how-to.md`). Solves one concrete problem for a reader who knows the basics. Title is a verbal noun naming the goal ("Konfigurowanie TLS…"); steps are numbered ("## 1. Utwórz przestrzeń nazw" for long steps, a numbered list for short ones) and start with an imperative. Always include "Weryfikacja"; add "Rozwiązywanie problemów" in the Objaw → Przyczyna → Rozwiązanie form. For system-level procedures, cover the variants the reader is likely to hit (BIOS vs UEFI, distribution versions) or state the scope at the top, and include the steps that make the change durable (e.g. `update-initramfs`, boot entries) plus a final consistency check.
 
 **Concept** (`concept.md`, publiczna). Explains how and why; no procedures. Order: problem, mechanism, consequences (Pro Git chapter 1, Kubernetes "Przegląd"). Define each term on first use; use a **Pojęcie** box to separate easily confused terms.
 

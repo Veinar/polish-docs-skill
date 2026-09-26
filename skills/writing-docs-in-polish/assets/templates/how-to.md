@@ -3,7 +3,7 @@
 
 <Jedno zdanie: kiedy i po co wykonuje się to zadanie.>
 
-<!-- Jeśli brakuje danych (nazwy, wersje, wartości), nie zmyślaj ich po cichu: użyj symboli zastępczych albo wypisz przyjęte wartości w sekcji „Założenia”. -->
+<!-- Zakres (opcjonalnie), np. „Instrukcja dotyczy serwerów z UEFI i Ubuntu 24.04.” Brakujące dane zastąp symbolami zastępczymi. Notatki dla zlecającego (co przyjęto, czego brakowało) umieść w odpowiedzi, nie w dokumencie. -->
 
 ## Zanim zaczniesz
 
@@ -12,8 +12,10 @@
 
 ## 1. <Krok w trybie rozkazującym>
 
+<!-- Symbole zastępcze w poleceniach: ASCII, snake_case, np. <nazwa_bazy>. -->
+
 ```bash
-<polecenie z symbolami zastępczymi, np. <nazwa_bazy>>
+<polecenie> <nazwa_bazy>
 ```
 
 Zastąp `<nazwa_bazy>` nazwą <…>.
@@ -24,17 +26,12 @@ Zastąp `<nazwa_bazy>` nazwą <…>.
 
 > **Ostrzeżenie:** <ryzyko utraty danych lub przerwy w działaniu i jak go uniknąć>.
 
-## Założenia
-
-<!-- Tylko jeśli coś przyjęto bez potwierdzenia. Usuń sekcję, jeśli wszystkie dane pochodzą od zlecającego. -->
-- <Przyjęta wartość i dlaczego.>
-
 ## Weryfikacja
 
 <Jak sprawdzić, że zadanie się powiodło.>
 
 ```bash
-<polecenie weryfikujące>
+<polecenie_weryfikujace>
 ```
 
 ## Rozwiązywanie problemów

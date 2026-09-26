@@ -23,14 +23,14 @@
 <Najkrótsza droga do działającego efektu.>
 
 ```bash
-<przykład użycia>
+<przyklad_uzycia>
 ```
 
 ## Konfiguracja
 
 | Zmienna | Opis | Domyślnie |
 |---|---|---|
-| `<NAZWA>` | <Opis> | `<wartość>` |
+| `<NAZWA>` | <Opis> | `<wartosc>` |
 
 ## Dokumentacja
 

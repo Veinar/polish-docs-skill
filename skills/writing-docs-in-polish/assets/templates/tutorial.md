@@ -31,7 +31,7 @@ Wynik powinien wyglądać podobnie do poniższego:
 ## 2. <Krok>
 
 <!-- Jeśli trzeba czekać na zmianę stanu: -->
-Może minąć kilka sekund, zanim <zasób> będzie gotowy. Jeśli widzisz `<stan pośredni>`, spróbuj ponownie.
+Może minąć kilka sekund, zanim <zasób> będzie gotowy. Jeśli widzisz `<stan_posredni>`, spróbuj ponownie.
 
 ## Sprzątanie
 

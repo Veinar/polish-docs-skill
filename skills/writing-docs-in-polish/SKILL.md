@@ -4,7 +4,7 @@ description: Writes, edits, reviews and translates technical documentation in Po
 license: MIT
 metadata:
   author: Veinar
-  version: "0.5.0"
+  version: "0.6.0"
 ---
 
 # Writing documentation in Polish
@@ -65,7 +65,7 @@ python scripts/lint_pl.py --register <publiczna|wewnetrzna> <plik.md>
 
 **Pick the register first: publiczna or wewnętrzna.** Public product docs (the Kubernetes/PostgreSQL level) use Polish verbs – wdrożyć, zbudować, scalić – with established English nouns inflected (commit, pod, pipeline). Internal engineering docs (runbooks, postmortems, internal READMEs, PR descriptions) use the jargon Polish engineers actually write: "zdeployuj na staging", "build się wywalił", "zrollbackuj deployment". Forcing formal Polish into internal docs sounds stiff; jargon in public docs sounds careless. Details, spelling rules (z-/s-/ze- prefixes, apostrophes) and inflection tables: [references/polish-technical-vocabulary.md](references/polish-technical-vocabulary.md).
 
-**Address the reader as "ty".** Kubernetes, Pro Git, ArchWiki and the Python docs all do. Imperative for steps ("Uruchom", "Sprawdź"), 3rd person for descriptions ("Polecenie zwraca…"). Pronouns lowercase ("twój", "ci"). Avoid "Państwo" and heavy "należy…" chains; one "należy" in a warning is fine.
+**Address the reader as "ty".** Kubernetes, Pro Git, ArchWiki and the Python docs all do. Drop "twój/twoja/twoje" wherever context makes ownership obvious ("Otwórz plik konfiguracyjny", not "Otwórz twój plik konfiguracyjny"). Imperative for steps ("Uruchom", "Sprawdź"), 3rd person for descriptions ("Polecenie zwraca…"). Pronouns lowercase ("twój", "ci"). Avoid "Państwo" and heavy "należy…" chains; one "należy" in a warning is fine.
 
 **Gender-neutral by construction.** Avoid past-tense 2nd person forms that force a gender ("uruchomiłeś", "chciałbyś"). Rephrase instead of writing "(-aś)":
 - "w terminalu, w którym uruchomiłeś `minikube start`" → "w terminalu, w którym działa `minikube start`"
@@ -85,9 +85,9 @@ python scripts/lint_pl.py --register <publiczna|wewnetrzna> <plik.md>
 
 **Numbers and typography**: „cudzysłów”, decimal comma (0,5 s), space as thousands separator (10 000), value and unit separated (512 MiB), dates "26 września 2026 r." or ISO `2026-09-26`.
 
-**Don't invent facts silently.** When the request lacks details the document needs (names, versions, limits, UI labels), use placeholders (`<nazwa_usługi>`) or state what you assumed in a short "Założenia" section or callout. The reader must be able to tell given facts from guesses.
+**Don't invent facts silently, and keep notes for the requester out of the document.** When the request lacks details (names, versions, limits, UI labels), use placeholders in the document (`<adres_proxy>`) so the reader can tell given facts from guesses. Report what you assumed or could not know **in your reply to the user**, not in the file: no "Założenia", "Zlecenie nie określało…" or "Uwagi do tłumaczenia" sections in a finished document. The document may state reader-facing scope ("Instrukcja dotyczy serwerów z UEFI i Ubuntu 24.04."). Only when the user asks for a draft with open questions, mark them as `<!-- DO UZUPEŁNIENIA: … -->` comments.
 
-**Instructions must be executable.** One action per step, numbered. Put warnings before the step they concern, not after. After a step that changes state, say what the reader should see. Say what a command does not do when readers could reasonably assume it does (a rollback that does not revert migrations). GUI conventions and verbs: [references/style.md](references/style.md#gui-instructions).
+**Instructions must be executable.** Numbered steps, each one thing the reader does in one place: a few clicks in the same dialog can share a step ("Wpisz kod i kliknij **Dalej**"); split when the reader must check a result or move to another screen or tool. Put warnings before the step they concern, not after. After a step that changes state, say what the reader should see. Say what a command does not do when readers could reasonably assume it does (a rollback that does not revert migrations). GUI conventions and verbs: [references/style.md](references/style.md#gui-instructions).
 
 **Translation mode.** The source text is authoritative. Translate everything that is prose. Don't leave English paragraphs behind (a half-translated chapter is worse than none). Record which source version was translated. Mark links that lead to English-only pages: "(w języku angielskim)".
 
@@ -141,6 +141,6 @@ gpg: Good signature from "Jan Kowalski <jan@example.org>"
 - [ ] Polish quotes „…”, decimal commas, diacritics everywhere
 - [ ] Every command has context: what it does, expected result, what to do on failure, what it does not undo
 - [ ] Steps numbered, one action each; warnings precede the risky step
-- [ ] No silently invented facts: placeholders or a „Założenia” section
+- [ ] No silently invented facts (placeholders), and no notes for the requester inside the document – assumptions go in your reply
 - [ ] No leftover English prose; English-only links marked
 - [ ] Matches conventions already present in the project

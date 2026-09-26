@@ -67,6 +67,38 @@ VERSION_CONTEXT = re.compile(
 )
 
 
+# A capitalized word (product name) or a token with digits right before the number: "Ubuntu 24.04"
+PRODUCT_BEFORE = re.compile(r"(?:\b[A-ZĄĆĘŁŃÓŚŹŻ][\w+.-]*|\b\w*\d\w*)\s+$")
+
+POSSESSIVE_RE = re.compile(r"\b(twój|twoja|twoje|twojego|twojej|twojemu|twoim|twoją|twoich|twoimi)\b")
+
+# Notes addressed to whoever requested the document, not to its reader
+WRITER_NOTE_HEADING = re.compile(r"^(założenia|uwagi do tłumaczenia|uwagi tłumacza|notatki dla autora)\b", re.IGNORECASE)
+WRITER_NOTE_PHRASE = re.compile(r"\b(zleceni\w*|zlecając\w*|w poleceniu nie podano|prompt\w*)\b", re.IGNORECASE)
+
+PLACEHOLDER_RE = re.compile(r"<[^<>\n]*[^\x00-\x7f][^<>\n]*>")
+
+
+def check_code_placeholders(text, report):
+    """Placeholders inside code must be ASCII so commands stay copy-pasteable."""
+    in_fence = None
+    in_comment = False
+    for number, line in enumerate(text.splitlines(), 1):
+        fence = re.match(r"^\s*(```|~~~)", line)
+        if fence:
+            in_fence = fence.group(1) if in_fence is None else (None if fence.group(1) == in_fence else in_fence)
+            continue
+        if not in_fence:
+            if in_comment or "<!--" in line:
+                in_comment = "-->" not in line.split("<!--")[-1] if "<!--" in line else "-->" not in line
+                continue
+        spans = [line] if in_fence else re.findall(r"`[^`]*`", line)
+        for span in spans:
+            for m in PLACEHOLDER_RE.finditer(span):
+                report(number, line.find(m.group(0)), WARNING, "placeholder-ascii",
+                       f"placeholder {m.group(0)} in code has non-ASCII characters; use ASCII snake_case")
+
+
 def strip_markup(line):
     """Blank out spans that must not be linted, keeping column positions."""
     def blank(match):
@@ -164,7 +196,8 @@ def lint(path, register_override):
                 report(number, 0, WARNING, "heading-period", "heading ends with a full stop")
         else:
             for m in re.finditer(r"(?<![\w./])(\d+)\.(\d+)(?![\w.])", prose):
-                if not VERSION_CONTEXT.search(prose[:m.start()]):
+                before = prose[:m.start()]
+                if not VERSION_CONTEXT.search(before) and not PRODUCT_BEFORE.search(before):
                     report(number, m.start(), WARNING, "decimal-point",
                            f"decimal point in {m.group(0)}; use a decimal comma ({m.group(1)},{m.group(2)}) unless it is a version")
         for m in re.finditer(r"(?<![\w,.])\d{1,3},\d{3}(?![\d,])", prose):
@@ -176,6 +209,17 @@ def lint(path, register_override):
             report(number, m.start(), WARNING, "pronoun-case",
                    f"„{m.group(0)}” mid-sentence; use lowercase in documentation")
 
+        for m in POSSESSIVE_RE.finditer(prose):
+            report(number, m.start(), WARNING, "possessive",
+                   f"„{m.group(0)}” is often a calque of English „your”; drop it when ownership is obvious")
+
+        if heading and WRITER_NOTE_HEADING.match(heading.group(1).strip()):
+            report(number, 0, WARNING, "writer-note",
+                   "section looks like a note for the requester; put assumptions in your reply, not in the document")
+        for m in WRITER_NOTE_PHRASE.finditer(prose):
+            report(number, m.start(), WARNING, "writer-note",
+                   f"„{m.group(0)}” refers to the request, not the reader; move it to your reply")
+
         lowered = prose.lower()
         for pattern, suggestion in CALQUES:
             for m in re.finditer(pattern, lowered):
@@ -185,6 +229,7 @@ def lint(path, register_override):
             for m in JARGON_RE.finditer(prose):
                 report(number, m.start(), WARNING, "jargon",
                        f"„{m.group(0)}” is developer jargon; public docs use Polish verbs (see polish-technical-vocabulary.md)")
+    check_code_placeholders(text, report)
     return findings
 
 

@@ -15,13 +15,13 @@
 | Nazwa | Typ | Wymagany | Opis |
 |---|---|---|---|
 | `<param1>` | `<typ>` | tak | <Opis.> |
-| `<param2>` | `<typ>` | nie | <Opis.> Domyślnie: `<wartość>`. |
+| `<param2>` | `<typ>` | nie | <Opis.> Domyślnie: `<wartosc>`. |
 
 **Wartość zwracana:** `<typ>` – <opis>.
 
 **Wyjątki**
 
-- `<TypBłędu>` – gdy <warunek>.
+- `<TypBledu>` – gdy <warunek>.
 
 **Opis**
 
@@ -30,7 +30,7 @@
 **Przykłady**
 
 ```<język>
-<przykład>
+<przyklad>
 ```
 
 **Zgodność**

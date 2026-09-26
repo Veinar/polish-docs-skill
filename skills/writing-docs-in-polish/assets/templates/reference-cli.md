@@ -15,8 +15,8 @@
 
 ## Opcje
 
-`-x`, `--przyklad <wartość>`
-: <Określa …>. Domyślnie: `<wartość>`.
+`-x`, `--przyklad <wartosc>`
+: <Określa …>. Domyślnie: `<wartosc>`.
 
 `--dry-run`
 : <Wyświetla zmiany bez ich wprowadzania.>
@@ -33,11 +33,11 @@
 ## Zmienne środowiskowe
 
 `<NAZWA_ZMIENNEJ>`
-: <Co określa>. Domyślnie: `<wartość>`.
+: <Co określa>. Domyślnie: `<wartosc>`.
 
 ## Pliki
 
-`<ścieżka/do/pliku>`
+`<sciezka/do/pliku>`
 : <Plik używany niejawnie, np. konfiguracyjny.>
 
 ## Diagnostyka

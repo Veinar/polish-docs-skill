@@ -11,7 +11,8 @@
         "No possessive „twój/twoim/twojego” translating „your”",
         "Status values Running and ContainerCreating are kept in English and glossed in Polish (e.g. „Running” (działa))",
         "Uses „Więcej informacji znajdziesz…” (or equivalent natural phrasing), not „odwołaj się do”/„odnieś się do”",
-        "pod/Pod casing is consistent and `kubectl get pods` is left untranslated"
+        "pod/Pod casing is consistent and `kubectl get pods` is left untranslated",
+        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine"
       ]
     },
     {
@@ -39,7 +40,8 @@
         "Follows a task/how-to structure: prerequisites (e.g. Zanim zaczniesz / Wymagania), numbered steps, verification",
         "Helm/kubectl commands and flags are left untranslated in code blocks",
         "Headings are in Polish sentence case",
-        "Addresses the customer consistently in one form (ty or Państwo), without mixing"
+        "Addresses the customer consistently in one form (ty or Państwo), without mixing",
+        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine"
       ]
     },
     {
@@ -48,12 +50,13 @@
       "expected_output": "Public how-to for non-technical users: numbered steps, UI labels in bold, invented portal labels marked as placeholders or assumptions, recovery codes and lost-phone guidance, consistent 'ty' without gendered forms.",
       "files": [],
       "assertions": [
-        "Steps are numbered and each step contains one action",
+        "Steps are numbered and each step is one thing done in one place (a few clicks in the same dialog may share a step; checking a result or moving to another screen starts a new step)",
         "UI element names are in bold (e.g. **Ustawienia**, **Bezpieczeństwo**)",
         "Portal labels or paths not given in the prompt are marked as placeholders or listed as assumptions, not presented as fact",
         "Explains backup/recovery codes and what to do if the phone is lost",
         "Addresses the reader consistently as 'ty' with no gender-forcing forms (e.g. „włączyłeś”, „chciałbyś”)",
-        "lint_pl.py reports 0 errors (no em dash, no hyphen used as a dash, Polish „…” quotes)"
+        "lint_pl.py reports 0 errors (no em dash, no hyphen used as a dash, Polish „…” quotes)",
+        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine"
       ]
     },
     {
@@ -67,7 +70,9 @@
         "Includes restoring a single file and verifying that it was restored",
         "Warns before repository initialization that losing the repository password makes the backup unrecoverable",
         "restic commands and flags are untranslated in code blocks and placeholders are explained",
-        "Terminology is consistent (e.g. repozytorium, migawka, kopia zapasowa are not alternated with snapshot/backup)"
+        "Terminology is consistent (e.g. repozytorium, migawka, kopia zapasowa are not alternated with snapshot/backup)",
+        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine",
+        "No redundant possessives („twój plik”, „twoja kopia”) where ownership is obvious from context"
       ]
     },
     {
@@ -81,21 +86,24 @@
         "Includes copying the partition layout to the new disk, adding it to the array and monitoring the resync",
         "Mentions installing the bootloader (GRUB) on the new disk when the array holds the system",
         "Has a verification section confirming the array is healthy (e.g. [UU], state clean)",
-        "Uses public register: Polish verbs, no jargon verbs such as „zrebuildować”, „zsyncować”; commands untranslated"
+        "Uses public register: Polish verbs, no jargon verbs such as „zrebuildować”, „zsyncować”; commands untranslated",
+        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine",
+        "Covers making the change durable and bootable (e.g. updating mdadm.conf/initramfs, bootloader for BIOS or UEFI) or states the scope explicitly"
       ]
     },
     {
       "id": 12,
-      "prompt": "Przetłumacz na polski instrukcję dla użytkowników. Aplikacja ma interfejs tylko po angielsku: '1. Open Settings and go to the Privacy tab. 2. Under \"Data sharing\", turn off \"Send usage statistics\". 3. Click Save \u2014 the change takes effect after you restart the app. Note: this doesn't delete data that was already sent.'",
-      "expected_output": "Translation keeping English UI labels in bold with a one-time Polish gloss, GUI verbs, em dash converted to en dash, note preserved as an admonition, numbered steps.",
+      "prompt": "Przetłumacz na polski ten fragment pomocy aplikacji. Interfejs aplikacji jest tylko po angielsku.\n\n## Exporting Your Data\n\nTo export your data, please follow the steps below:\n\n1. Click on the Account icon in the top right corner and select Settings.\n2. In the Settings window, go to the Data & Privacy tab \u2014 it's the third tab from the left.\n3. Under \"Export\", check \"Include attachments\" if you want your files too. Exports larger than 2.5 GB are split into parts of up to 1,000 files.\n4. Click Request export. You'll receive an email once your export is ready (usually within 24 hours).\n\nWarning: The download link expires after 7 days. Once you've downloaded your archive, we recommend deleting it from shared computers.",
+      "expected_output": "Natural Polish help text: sentence-case heading without possessive, English UI labels in bold with one-time gloss, localized numbers (2,5 GB, 1000), no „proszę”/„kliknij na”, no gendered past forms, em dash and straight quotes converted.",
       "files": [],
       "assertions": [
-        "English UI labels are kept verbatim in bold and glossed in Polish once (e.g. **Settings** (Ustawienia))",
-        "The em dash from the source is not in the output; an en dash or restructured sentence is used instead",
-        "Uses Polish GUI verbs: kliknij, wyłącz (przełącznik/opcję), przejdź do karty",
-        "The note about already-sent data is preserved as an admonition (Uwaga or Informacja)",
-        "The three numbered steps and the restart requirement are preserved",
-        "No calques or unnecessary possessives („twój”, „swoje”)"
+        "The heading is in sentence case without a possessive (e.g. „Eksportowanie danych”, not „Eksportowanie Twoich Danych”)",
+        "English UI labels (Account, Settings, Data & Privacy, Include attachments, Request export) are kept verbatim in bold, with a Polish gloss on first use",
+        "Numbers are localized: 2,5 GB and 1000 (or 1 000); the output contains neither „2.5” nor „1,000”",
+        "No filler or calques: no „proszę”/„prosimy”, no „kliknij na”, no redundant „twoje dane/pliki”",
+        "No gender-forcing forms (e.g. „pobrałeś”, „otrzymałeś”); rephrased with present tense or impersonal forms",
+        "lint_pl.py reports 0 errors (no em dash, „…” quotes)",
+        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine"
       ]
     },
     {
@@ -109,7 +117,9 @@
         "Hostnames, group names and proxy addresses not given in the prompt are placeholders or listed as assumptions",
         "Says whom to contact or where to ask when access is denied",
         "Commands are untranslated in code blocks and placeholders are explained",
-        "lint_pl.py reports 0 errors (no em dash, no hyphen used as a dash, Polish „…” quotes)"
+        "lint_pl.py reports 0 errors (no em dash, no hyphen used as a dash, Polish „…” quotes)",
+        "The document contains no notes addressed to the requester (no „Założenia” section, no „Zlecenie nie określało…”, no „Uwagi do tłumaczenia”); scope statements for the reader are fine",
+        "No redundant possessives („twój plik”, „twoja kopia”) where ownership is obvious from context"
       ]
     }
   ]

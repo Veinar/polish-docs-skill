@@ -44,4 +44,4 @@ gdzie <opcja> to:
 
 ## Zobacz też
 
-[`<POWIĄZANE POLECENIE>`](<link>)
+[`<POWIAZANE_POLECENIE>`](<link>)

@@ -4,6 +4,22 @@ All notable changes to this project are documented here. Format follows [Keep a 
 
 ## [Unreleased]
 
+## [0.6.0] – 2026-09-26
+
+### Changed
+- Assumptions and notes for the requester go in the reply, not in the document; documents may state reader-facing scope. The how-to template's „Założenia” section is removed.
+- Step rule clarified: one thing done in one place; a few clicks in the same dialog may share a step.
+- Drop redundant „twój/twoja/twoje” (English „your” calque).
+- How-to rules: cover likely variants (BIOS/UEFI, versions) or state scope; include steps that make system changes durable.
+- Template placeholders in code are ASCII-only.
+- Eval 12 replaced with a harder source text; checks for leaked requester notes and possessives added to evals 6, 8–13.
+
+### Added
+- Linter checks: leaked requester notes (`writer-note`), redundant possessives (`possessive`), non-ASCII placeholders in code (`placeholder-ascii`).
+
+### Fixed
+- Linter no longer flags product versions such as „Ubuntu 24.04” or „Helm 3.12” as decimals.
+
 ## [0.5.0] – 2026-09-26
 
 ### Added
