@@ -1,4 +1,4 @@
-<!-- Rejestr: publiczna. Układ jak w PostgreSQL i stronach man. Pomiń sekcje, które nie mają zastosowania. Opisy opcji zaczynaj od czasownika w 3. osobie i podawaj wartość domyślną. Szablon wyznacza strukturę, a nie limit treści: dodaj sekcję, gdy temat tego wymaga, i nie pomijaj istotnych informacji technicznych. -->
+<!-- Rejestr: publiczna. Układ jak w PostgreSQL i stronach man. Pomiń sekcje, które nie mają zastosowania. Opisy opcji zaczynaj od czasownika w 3. osobie i podawaj wartość domyślną. -->
 # <polecenie_podpolecenie>
 
 `<polecenie_podpolecenie>` – <półzdaniowy opis działania>

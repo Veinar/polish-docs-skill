@@ -1,4 +1,4 @@
-<!-- Rejestr: publiczna (dla użytkowników) lub inżynierska (dla zespołu). Instrukcja rozwiązuje jeden konkretny problem czytelnika, który zna podstawy. Szablon wyznacza strukturę, a nie limit treści: dodaj sekcję, gdy temat tego wymaga, i nie pomijaj istotnych informacji technicznych. -->
+<!-- Rejestr: publiczna (dla użytkowników) lub inżynierska (dla zespołu). Instrukcja rozwiązuje jeden konkretny problem czytelnika, który zna podstawy. Dla zmian systemowych uwzględnij warianty, na które czytelnik trafi (BIOS/UEFI, wersje) albo podaj zakres, oraz kroki utrwalające zmianę (np. initramfs, wpis rozruchowy) i końcową kontrolę spójności. -->
 # <Rzeczownik odczasownikowy określający cel, np. „Konfigurowanie TLS dla bramy API”>
 
 <Jedno zdanie: kiedy i po co wykonuje się to zadanie.>

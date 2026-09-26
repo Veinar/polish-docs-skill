@@ -1,4 +1,4 @@
-<!-- Rejestr: inżynierska. Tytuł to decyzja w formie zdania oznajmującego. Szablon wyznacza strukturę, a nie limit treści: dodaj sekcję, gdy temat tego wymaga, i nie pomijaj istotnych informacji technicznych. -->
+<!-- Rejestr: inżynierska. Tytuł to decyzja w formie zdania oznajmującego. -->
 # ADR-<NNN>: <Decyzja, np. „Komunikacja między mikroserwisami przez gRPC”>
 
 - Status: <proponowana | zaakceptowana | odrzucona | zastąpiona przez ADR-MMM>

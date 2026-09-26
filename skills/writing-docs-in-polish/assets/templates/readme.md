@@ -1,4 +1,4 @@
-<!-- Rejestr: publiczna dla projektów open source, inżynierska dla projektów zespołowych. Szablon wyznacza strukturę, a nie limit treści: dodaj sekcję, gdy temat tego wymaga, i nie pomijaj istotnych informacji technicznych. -->
+<!-- Rejestr: publiczna dla projektów open source, inżynierska dla projektów zespołowych. -->
 # <Nazwa projektu>
 
 <1–2 zdania: co robi projekt i dla kogo jest.>

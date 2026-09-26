@@ -1,4 +1,4 @@
-<!-- Rejestr: inżynierska – naturalny żargon zespołu (zdeployuj, zrollbackuj, pod, deployment). Pisz dla osoby obudzonej o 3:00: krótkie zdania, gotowe polecenia do skopiowania, jasne kryteria eskalacji. Szablon wyznacza strukturę, a nie limit treści: dodaj sekcję, gdy temat tego wymaga, i nie pomijaj istotnych informacji technicznych. -->
+<!-- Rejestr: inżynierska – naturalny żargon zespołu (zdeployuj, zrollbackuj, pod, deployment). Pisz dla osoby obudzonej o 3:00: krótkie zdania, gotowe polecenia do skopiowania, jasne kryteria eskalacji. -->
 # Runbook: <problem lub alert, np. „Wysoki odsetek błędów 5xx w payments-api”>
 
 - Właściciel: <zespół>

@@ -56,6 +56,10 @@ class Typography(unittest.TestCase):
         for text in ("Ubuntu 24.04 działa.\n", "Helm 3.12 działa.\n", "REST po HTTP/1.1 działa.\n", "- Wersja: 1.0\n"):
             self.assertNotIn("decimal-point", codes(text), text)
 
+    def test_version_range_in_one_sentence(self):
+        self.assertNotIn("decimal-point", codes("Aktualizacja z wersji 4.7 do 4.8 trwa krótko.\n"))
+        self.assertIn("decimal-point", codes("Wersja jest nowa. Ustaw limit 4.8 s.\n"))
+
     def test_thousands_comma(self):
         self.assertIn("thousands-comma", codes("Limit 1,500 plików.\n"))
 
@@ -64,6 +68,15 @@ class Language(unittest.TestCase):
     def test_serwis_meaning_service_is_flagged_but_maintenance_is_not(self):
         self.assertIn("calque", codes("Serwis nasłuchuje na porcie.\n"))
         self.assertNotIn("calque", codes("Okno serwisowe trwa 2 godziny, a mikroserwisy działają.\n"))
+
+    def test_debugowanie_is_fine_in_public_docs(self):
+        self.assertNotIn("jargon", codes("Włącz tryb debugowania.\n", "publiczna"))
+
+    def test_leaked_process_notes(self):
+        self.assertIn("writer-note", codes("## Notatki techniczne\n\nTekst.\n"))
+        self.assertIn("writer-note", codes("## Tekst źródłowy (angielski)\n\nText.\n"))
+        self.assertIn("process-remark", codes("- Wszystkie negacje zachowane.\n"))
+        self.assertIn("process-remark", codes("- Rejestr: publiczna\n"))
 
     def test_wsparcie_and_possessives(self):
         self.assertIn("calque", codes("Słabe wsparcie w przeglądarkach.\n"))
@@ -141,6 +154,26 @@ class Conventions(unittest.TestCase):
     def test_empty_repo_defaults_to_snake(self):
         with tempfile.TemporaryDirectory() as tmp:
             self.assertEqual(detect.detect(tmp)["recommended_placeholder_style"], "snake")
+
+
+class TermLookup(unittest.TestCase):
+    def run_term(self, *words):
+        import subprocess
+        import sys
+        return subprocess.run([sys.executable, str(SCRIPTS / "term.py"), *words], capture_output=True, text=True)
+
+    def test_finds_rows_and_only_rows(self):
+        out = self.run_term("rolling update").stdout
+        self.assertIn("aktualizacja krocząca", out)
+        self.assertLess(len(out), 600)
+
+    def test_prefix_match_and_register_columns(self):
+        out = self.run_term("deploy").stdout
+        self.assertIn("zdeployować", out)
+        self.assertIn("deploymentu", out)
+
+    def test_unknown_word_gets_a_fallback(self):
+        self.assertIn("no entry", self.run_term("xyzzyq").stdout)
 
 
 if __name__ == "__main__":

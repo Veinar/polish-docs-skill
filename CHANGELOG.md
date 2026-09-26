@@ -4,6 +4,31 @@ All notable changes to this project are documented here. Format follows [Keep a 
 
 ## [Unreleased]
 
+## [0.8.0] – 2026-09-26
+
+### Added
+- `scripts/term.py`: prints only the matching rows of the glossaries (terms, jargon per register, calques, GUI verbs), so a lookup costs tens of tokens instead of thousands.
+- `references/translation.md`: translation and proofreading rules and the negation table, read only for those tasks.
+- Validator guards: `SKILL.md` at most about 2.5 k tokens, description at most 600 characters, every path and template mentioned in `SKILL.md` must exist.
+
+### Changed
+- `SKILL.md` rewritten to about 2 k tokens (was 3.2 k): terse priorities and core rules, one workflow, glossaries reached through `term.py` instead of being read.
+- `content-types.md` keeps only shared elements (admonitions, version notes, cross-references); the per-type rules live in the template comments. The how-to and specification templates gained the rules that were only in `content-types.md`.
+- Templates no longer repeat the „structure, not a content limit” note.
+
+## [0.7.1] – 2026-09-26
+
+### Added
+- Fast path in SKILL.md: small tasks (a paragraph, a few lines) skip the workflow, templates, references and linter.
+- Output discipline: deliver only the requested text (no source echo, no notes about what was preserved); the reply for a file is two or three lines.
+- `scripts/pick_evals.py`: seeded random sample of evals; prefers evals with fewer earlier runs and spreads tags. Evals are never run as a full set.
+- Linter: `process-remark` (Rejestr:, „negacje zachowane”) and more leaked meta headings (Notatki techniczne, Tekst źródłowy).
+
+### Changed
+- SKILL.md is about 3.2 k tokens (was 4.0 k): compact description and template list, checklist and example removed; content-types.md is no longer read by default.
+- „Debugowanie” is no longer flagged as jargon in public docs; versions in one sentence („z wersji 4.7 do 4.8”) are not decimals.
+- `lint_metrics.py` and `reuse_baselines.py` accept run directories without a slug or `run-1` level.
+
 ## [0.7.0] – 2026-09-26
 
 ### Added

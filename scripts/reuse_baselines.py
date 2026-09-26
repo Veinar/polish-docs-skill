@@ -65,7 +65,7 @@ def main():
     prompts = load_prompts(args.evals)
     reused, fresh = [], []
     for old_dir in sorted(previous.glob("eval-*")):
-        match = re.match(r"eval-(\d+)-", old_dir.name)
+        match = re.match(r"eval-(\d+)(?:-|$)", old_dir.name)
         source = old_dir / "without_skill"
         target = new / old_dir.name / "without_skill"
         meta = old_dir / "eval_metadata.json"

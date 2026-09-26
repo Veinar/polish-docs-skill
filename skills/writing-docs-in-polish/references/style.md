@@ -4,7 +4,6 @@
 - Anti-calque catalogue (wrong → right)
 - Sentence-level patterns
 - Phonetic polonizations
-- Preserving negations and limits
 - GUI instructions
 - Phrasebook: recurring documentation phrases
 - Consistency traps
@@ -70,22 +69,6 @@ These rules apply to every register except jargon, which inżynierska and potocz
 ## Phonetic polonizations
 
 Words that respell an English term in Polish spelling ("serwis" for *service*, "wolumin" for *volume*) are neither Polish nor the recognizable English term. "Serwis" stays correct in its own senses: maintenance („okno serwisowe”, „serwis techniczny”) and websites („serwis internetowy”). Use a genuine Polish word (usługa) or keep the English term and inflect it (Service, volume'u). Words fully established in Polish dictionaries are fine: kontener, klaster, serwer, commit, tag.
-
-## Preserving negations and limits
-
-Losing a negation is the worst translation error: the Polish reads well and says the opposite. Check every one of these words in the source against the translation.
-
-| English | Polish |
-|---|---|
-| does not / cannot | nie / nie można |
-| must not | nie wolno / NIE MOŻE (in a specification) |
-| unless | chyba że / o ile nie |
-| only | tylko / wyłącznie |
-| except | z wyjątkiem |
-| not supported | nie jest obsługiwane |
-| does not affect / does not revert | nie wpływa na / nie cofa |
-
-"This command does not restore database migrations." → „To polecenie nie przywraca migracji bazy danych.” Never soften it to „ogranicza się do…” or drop it to fit a template.
 
 ## GUI instructions
 

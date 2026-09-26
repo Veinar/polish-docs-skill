@@ -63,7 +63,7 @@ CALQUES = [
 JARGON_STEMS = (
     "deploy|build|merg|rollback|commit|push|pull|rebase|squash|cherry-pick|provision|"
     "patch|upgrade|downgrade|backup|restor|trigger|fail|retry|releas|approv|drain|cordon|"
-    "mock|stub|benchmark|harden|debug|refactor|scrap|ingest|forward|rout|throttl|"
+    "mock|stub|benchmark|harden|refactor|scrap|ingest|forward|rout|throttl|"
     "fork|checkout|stash|restart|label|annotat|bootstrap"
 )
 JARGON_RE = re.compile(
@@ -81,13 +81,16 @@ VERSION_CONTEXT = re.compile(
     r"rozdzia\w*|sekcj\w*|punkt\w*|krok\w*|§)[\s:]*$",
     re.IGNORECASE,
 )
+# "wersji 4.7 do 4.8": a version keyword earlier in the same sentence (dots inside numbers do not end it)
+VERSION_IN_SENTENCE = re.compile(r"\b(?:wersj\w*|version)\b(?:[^.!?;]|\.(?=\d))*$", re.IGNORECASE)
 # A capitalized word (product name) or a token with digits right before the number: "Ubuntu 24.04"
 PRODUCT_BEFORE = re.compile(r"(?:\b[A-ZĄĆĘŁŃÓŚŹŻ][\w+.-]*|\b\w*\d\w*)\s+$")
 
 POSSESSIVE_RE = re.compile(r"\b(twój|twoja|twoje|twojego|twojej|twojemu|twoim|twoją|twoich|twoimi)\b")
 
 # Notes addressed to whoever requested the document, not to its reader
-WRITER_NOTE_HEADING = re.compile(r"^(uwagi do tłumaczenia|uwagi tłumacza|notatki dla autora)\b", re.IGNORECASE)
+WRITER_NOTE_HEADING = re.compile(r"^(uwagi do tłumaczenia|uwagi tłumacza|notatki (dla autora|techniczne|do tłumaczenia)|tekst źródłowy|komentarz tłumacza|podsumowanie (tłumaczenia|zmian))\b", re.IGNORECASE)
+PROCESS_REMARK = re.compile(r"\bRejestr:|\bnegacje zachowan\w*|\bzachowan\w* (?:wszystk\w+ )?negacj\w*", re.IGNORECASE)
 ASSUMPTIONS_HEADING = re.compile(r"^założenia\b(?! i niewiadome)", re.IGNORECASE)
 WRITER_NOTE_PHRASE = re.compile(r"\b(zleceni\w*|zlecając\w*|w poleceniu nie podano|prompt\w*)\b", re.IGNORECASE)
 
@@ -305,7 +308,7 @@ def lint(path, register, placeholder_style="auto"):
         else:
             for m in re.finditer(r"(?<![\w./])(\d+)\.(\d+)(?![\w.])", prose):
                 before = prose[:m.start()]
-                if not VERSION_CONTEXT.search(before) and not PRODUCT_BEFORE.search(before):
+                if not (VERSION_CONTEXT.search(before) or PRODUCT_BEFORE.search(before) or VERSION_IN_SENTENCE.search(before)):
                     report(number, m.start(), WARNING, "decimal-point",
                            f"decimal point in {m.group(0)}; use a decimal comma ({m.group(1)},{m.group(2)}) unless it is a version")
         for m in re.finditer(r"(?<![\w,.])\d{1,3},\d{3}(?![\d,])", prose):
@@ -325,6 +328,9 @@ def lint(path, register, placeholder_style="auto"):
         if heading and ASSUMPTIONS_HEADING.match(heading.group(1).strip()):
             report(number, 0, WARNING, "assumptions-section",
                    "„Założenia” is content in an ADR or specification; in other documents assumptions belong in your reply")
+        for m in PROCESS_REMARK.finditer(prose):
+            report(number, m.start(), WARNING, "process-remark",
+                   f"„{m.group(0)}” describes how the text was produced; deliver only the document")
         for m in WRITER_NOTE_PHRASE.finditer(prose):
             report(number, m.start(), WARNING, "writer-note",
                    f"„{m.group(0)}” refers to the request, not the reader; move it to your reply")

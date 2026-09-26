@@ -32,6 +32,8 @@ def load_linter():
 def measure(lint_pl, run_dir, register):
     words, errors, warnings, codes = 0, 0, 0, Counter()
     for md in sorted((run_dir / "outputs").rglob("*.md")):
+        if md.name == "reply.md":
+            continue  # the reply is chat, not the document
         words += lint_pl.prose_word_count(md.read_text(encoding="utf-8"))
         for finding in lint_pl.lint(md, register):
             if finding[3] == lint_pl.ERROR:
@@ -60,14 +62,15 @@ def main():
     iteration = Path(args.iteration)
     table, totals = {}, {"with_skill": Counter(), "without_skill": Counter()}
     for eval_dir in sorted(iteration.glob("eval-*")):
-        match = re.match(r"eval-(\d+)-", eval_dir.name)
+        match = re.match(r"eval-(\d+)(?:-|$)", eval_dir.name)
         register = registers.get(int(match.group(1))) if match else None
         if not register:
             print(f"skip {eval_dir.name}: no `register` in evals file", file=sys.stderr)
             continue
         row = {}
         for config in ("with_skill", "without_skill"):
-            runs = sorted((eval_dir / config).glob("run-*"))
+            # layouts seen: <config>/run-1/outputs and <config>/outputs
+            runs = sorted((eval_dir / config).glob("run-*")) or ([eval_dir / config] if (eval_dir / config / "outputs").exists() else [])
             if runs:
                 row[config] = measure(lint_pl, runs[0], register)
                 for key in ("words", "errors", "warnings"):

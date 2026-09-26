@@ -15,6 +15,9 @@ MAX_NAME = 64
 MAX_DESCRIPTION = 1024
 # Anthropic's recommended ceiling for the SKILL.md body
 MAX_BODY_LINES = 500
+# Token budget: SKILL.md is loaded on every use, so keep it small (about 3 characters per token)
+MAX_SKILL_TOKENS = 2500
+MAX_DESCRIPTION_CHARS = 600
 EM_DASH = "\u2014"
 
 
@@ -56,6 +59,8 @@ def validate(skill_md):
         errors.append("missing 'description'")
     elif len(description) > MAX_DESCRIPTION:
         errors.append(f"'description' is {len(description)} chars (max {MAX_DESCRIPTION})")
+    if len(description) > MAX_DESCRIPTION_CHARS:
+        errors.append(f"'description' is {len(description)} chars; it is always loaded, keep it under {MAX_DESCRIPTION_CHARS}")
     if re.search(r"<[^>]+>", name + description):
         errors.append("'name'/'description' must not contain XML tags")
 
@@ -71,6 +76,23 @@ def validate(skill_md):
     for link in re.findall(r"\]\(([^)#]+)\)", body):
         if not link.startswith(("http://", "https://")) and not (skill_md.parent / link).exists():
             errors.append(f"broken relative link: {link}")
+    return errors
+
+
+def validate_budget_and_paths(skill_md):
+    """Keep SKILL.md small, and make sure every path and template it mentions exists."""
+    errors = []
+    text = skill_md.read_text(encoding="utf-8")
+    tokens = len(text) // 3
+    if tokens > MAX_SKILL_TOKENS:
+        errors.append(f"SKILL.md is about {tokens} tokens (budget {MAX_SKILL_TOKENS}); move rarely needed rules into references/")
+    skill_dir = skill_md.parent
+    for mention in sorted(set(re.findall(r"(?:references|scripts|assets/templates)/[\w./-]*", text))):
+        if not (skill_dir / mention.rstrip("/")).exists():
+            errors.append(f"SKILL.md mentions a missing path: {mention}")
+    for template in sorted((skill_dir / "assets" / "templates").glob("*.md")):
+        if f"`{template.stem}`" not in text:
+            errors.append(f"template {template.stem} is not listed in SKILL.md")
     return errors
 
 
@@ -121,7 +143,7 @@ def main():
             for number, line in enumerate(ref.read_text(encoding="utf-8").splitlines(), 1):
                 if EM_DASH in line:
                     errors.append(f"em dash (U+2014) in {ref.relative_to(skill_md.parent)}:{number}; use en dash (U+2013)")
-        errors += validate_templates(skill_md.parent) + validate_versions(skill_md)
+        errors += validate_templates(skill_md.parent) + validate_versions(skill_md) + validate_budget_and_paths(skill_md)
         status = "FAIL" if errors else "OK"
         print(f"[{status}] {skill_md}")
         for error in errors:

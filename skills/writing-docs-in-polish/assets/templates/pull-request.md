@@ -1,4 +1,4 @@
-<!-- Rejestr: potoczna. Opis PR-a ma pozwolić recenzentowi zrozumieć zmianę bez czytania całego diffa. Szablon wyznacza strukturę, a nie limit treści: dodaj sekcję, gdy temat tego wymaga, i nie pomijaj istotnych informacji technicznych. -->
+<!-- Rejestr: potoczna. Opis PR-a ma pozwolić recenzentowi zrozumieć zmianę bez czytania całego diffa. -->
 ## Co i dlaczego
 
 <1–3 zdania: jaki problem rozwiązuje zmiana i dlaczego teraz.>

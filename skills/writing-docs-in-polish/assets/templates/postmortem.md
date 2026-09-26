@@ -1,4 +1,4 @@
-<!-- Rejestr: inżynierska. Zasada „bez szukania winnych”: opisuj systemy i decyzje, nie osoby. Czas w formacie 24-godzinnym ze strefą (UTC lub CET/CEST). Szablon wyznacza strukturę, a nie limit treści: dodaj sekcję, gdy temat tego wymaga, i nie pomijaj istotnych informacji technicznych. -->
+<!-- Rejestr: inżynierska. Zasada „bez szukania winnych”: opisuj systemy i decyzje, nie osoby. Czas w formacie 24-godzinnym ze strefą (UTC lub CET/CEST). -->
 # Postmortem: <krótki opis incydentu>
 
 - Data incydentu: <RRRR-MM-DD>

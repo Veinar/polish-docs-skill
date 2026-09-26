@@ -1,4 +1,4 @@
-<!-- Rejestr: publiczna. Koncepcja wyjaśnia, jak coś działa i dlaczego. Bez procedur krok po kroku – odsyłaj do instrukcji. Kolejność: problem → mechanizm → konsekwencje. Szablon wyznacza strukturę, a nie limit treści: dodaj sekcję, gdy temat tego wymaga, i nie pomijaj istotnych informacji technicznych. -->
+<!-- Rejestr: publiczna. Koncepcja wyjaśnia, jak coś działa i dlaczego. Bez procedur krok po kroku – odsyłaj do instrukcji. Kolejność: problem → mechanizm → konsekwencje. -->
 # <Rzeczownik, np. „Model uprawnień”>
 
 <Akapit wprowadzający: czym jest <X> i jaki problem rozwiązuje.>
