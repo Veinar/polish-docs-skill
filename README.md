@@ -1,5 +1,7 @@
 # writing-docs-in-polish
 
+![GitHub License](https://img.shields.io/github/license/Veinar/polish-docs-skill?color=blue)
+
 Skill dla Claude, który pisze, tłumaczy i poprawia dokumentację techniczną po polsku: naturalnym językiem, z polską typografią i spójną terminologią, na poziomie dokumentacji Kubernetesa, Pro Git czy PostgreSQL.
 
 ## Dla kogo jest ten skill
